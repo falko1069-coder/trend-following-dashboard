@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <!-- 2. แถบสรุปสถิติภาพรวม 4 กล่อง (Quick Stats แบบโปรเจกต์ 1) -->
+        <!-- 2. แถบสรุปสถิติภาพรวม 4 กล่อง (Quick Stats) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
                 <div>
@@ -372,6 +372,7 @@
                     const isTH = stock.market === 'TH' || (stock.symbol && stock.symbol.toUpperCase().endsWith('.BK'));
                     const market = isTH ? 'TH' : 'US';
                     const currency = stock.currency || (isTH ? '฿' : '$');
+                    const cleanName = (stock.name || stock.symbol).replace(/^[A-Z0-9]+\s*_/, '');
 
                     const ema50 = stock.ema50 || calculateEMA(stock.historicalPrices, 50);
                     const ema200 = stock.ema200 || calculateEMA(stock.historicalPrices, 200);
@@ -405,11 +406,12 @@
                     const rangePos = span > 0 ? Math.min(100, Math.max(0, Math.round(((stock.price - low60) / span) * 100))) : 50;
 
                     const aiSummaryText = (stock.aiSummary && stock.aiSummary.trim() !== "") 
-                                          ? stock.aiSummary 
+                                          ? stock.aiSummary.trim() 
                                           : "รอยืนยันสัญญาณเปลี่ยนเทรนด์ในรอบถัดไป...";
 
                     return {
                         ...stock,
+                        name: cleanName,
                         market,
                         currency,
                         price: Number(stock.price || 0),
@@ -674,7 +676,7 @@
                             </div>
                         </div>
 
-                        <!-- กล่อง AI Analyst Insight -->
+                        <!-- กล่อง AI Analyst Insight (แก้ไขตัดช่องว่างบรรทัดแรกให้ชิดซ้ายสวยงาม) -->
                         <div class="p-3 rounded-xl border ${aiBoxBg} transition-all duration-300">
                             <div class="flex items-center justify-between mb-1">
                                 <div class="flex items-center gap-1.5">
@@ -683,9 +685,7 @@
                                 </div>
                                 <span class="text-[10px] text-blue-400 font-medium">คลิกดูกราฟ <i class="fa-solid fa-angle-right"></i></span>
                             </div>
-                            <p class="text-[11px] leading-relaxed ai-text-clamp whitespace-pre-wrap ${aiTextColor}">
-                                ${stock.aiSummaryText}
-                            </p>
+                            <p class="text-[11px] leading-relaxed ai-text-clamp whitespace-pre-wrap ${aiTextColor}">${stock.aiSummaryText.trim()}</p>
                         </div>
                     </div>
                 `;
@@ -717,7 +717,7 @@
             debtEl.className = `text-base font-bold mt-0.5 ${stock.isHalal ? 'text-emerald-400' : 'text-rose-400'}`;
 
             document.getElementById('modal-gap').innerText = `EMA Gap: ${stock.gapPercent >= 0 ? '+' : ''}${stock.gapPercent.toFixed(2)}%`;
-            document.getElementById('modal-ai-text').innerText = stock.aiSummaryText;
+            document.getElementById('modal-ai-text').innerText = stock.aiSummaryText.trim();
 
             // วาดกราฟ SVG จากข้อมูลราคาย้อนหลัง
             const prices = (stock.historicalPrices || []).slice(-120);
