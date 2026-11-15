@@ -39,16 +39,16 @@
                     <i class="fa-solid fa-chart-line text-blue-400 text-xl"></i>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2.5">
+                    <div class="flex items-center gap-2.5 flex-wrap">
                         <h1 class="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
                             Trend Following PRO
                         </h1>
                         <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                            US & Thai SET
+                            Smart Sizing & RRR Desk
                         </span>
                     </div>
                     <p class="text-slate-400 text-xs sm:text-sm mt-0.5">
-                        <i class="fa-solid fa-robot text-indigo-400 mr-1"></i> AI News Analyst | ระบบสแกนสัญญาณต้นรอบ EMA 50 / EMA 200 และกรองหุ้นฮาลาล
+                        <i class="fa-solid fa-robot text-indigo-400 mr-1"></i> AI News Analyst | สแกนต้นรอบ EMA 50/200 พร้อมคำนวณจุดตั้งซื้อและขนาดเงินลงทุนอัตโนมัติ
                     </p>
                 </div>
             </div>
@@ -72,7 +72,68 @@
             </div>
         </div>
 
-        <!-- 2. แถบสรุปสถิติภาพรวม 4 กล่อง (Quick Stats) -->
+        <!-- 💼 2. แผงควบคุม "พอร์ตเงินสดในมือ & คำนวณขนาดไม้ลงทุนอัตโนมัติ" (อัปเดตได้ตลอดเวลา) -->
+        <div class="rounded-2xl border border-blue-500/25 bg-gradient-to-r from-[#131B2E] via-[#131824] to-[#122229] p-4 shadow-lg">
+            <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                <div class="flex items-start sm:items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-wallet text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h3 class="text-white font-bold text-sm">พอร์ตเงินสดในมือ & คำนวณขนาดไม้รันเทรนด์อัตโนมัติ</h3>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto-Saved</span>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-0.5">
+                            แก้ไขเงินสดในมือได้ตลอดเวลา ระบบจะคำนวณจุดตั้งซื้อ ความคุ้มค่า (RRR) และจำนวนหุ้นที่ควรซื้อในแต่ละการ์ดทันที
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 xl:w-auto">
+                    <!-- งบหุ้นไทย -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-blue-500/50 transition-all">
+                        <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
+                            <span>🇹🇭 งบหุ้นไทยในมือ (฿)</span>
+                            <span class="text-emerald-400 font-semibold">THB</span>
+                        </label>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-slate-400 font-bold text-sm">฿</span>
+                            <input type="number" id="input-th-cash" min="0" step="1000" value="50000" class="w-full bg-transparent text-white font-bold text-sm outline-none">
+                        </div>
+                    </div>
+
+                    <!-- งบหุ้นอเมริกา -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-blue-500/50 transition-all">
+                        <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
+                            <span>🇺🇸 งบหุ้นอเมริกาในมือ ($)</span>
+                            <span class="text-sky-400 font-semibold">USD</span>
+                        </label>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-slate-400 font-bold text-sm">$</span>
+                            <input type="number" id="input-us-cash" min="0" step="100" value="1500" class="w-full bg-transparent text-white font-bold text-sm outline-none">
+                        </div>
+                    </div>
+
+                    <!-- ขนาดไม้มาตรฐาน (%) -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2">
+                        <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
+                            <span>⚖️ ขนาดไม้มาตรฐาน (%)</span>
+                            <span id="alloc-pct-label" class="text-yellow-400 font-semibold">15% / ไม้</span>
+                        </label>
+                        <div class="flex items-center gap-1.5 mt-1.5" id="alloc-pct-buttons">
+                            <button type="button" onclick="setBaseAllocPct(10)" data-pct="10" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">10%</button>
+                            <button type="button" onclick="setBaseAllocPct(15)" data-pct="15" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-blue-500/25 border-blue-500/50 text-blue-300">15%</button>
+                            <button type="button" onclick="setBaseAllocPct(20)" data-pct="20" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">20%</button>
+                            <button type="button" onclick="setBaseAllocPct(25)" data-pct="25" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">25%</button>
+                            <button type="button" onclick="setBaseAllocPct(33)" data-pct="33" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">33%</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. แถบสรุปสถิติภาพรวม 4 กล่อง (Quick Stats) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
                 <div>
@@ -98,12 +159,12 @@
 
             <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
                 <div>
-                    <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Halal Compliant</p>
-                    <p id="stat-halal" class="text-2xl font-extrabold text-teal-400 mt-1">0/0</p>
-                    <p class="text-slate-500 text-xs mt-1">สัดส่วนหนี้สิน ≤ 33%</p>
+                    <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">High RRR Setups</p>
+                    <p id="stat-high-rrr" class="text-2xl font-extrabold text-sky-400 mt-1">0</p>
+                    <p id="stat-halal" class="text-slate-500 text-xs mt-1">คุ้มค่าลงทุน (RRR ≥ 1:1.5)</p>
                 </div>
-                <div class="p-2.5 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400">
-                    <i class="fa-solid fa-mosque text-lg"></i>
+                <div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
                 </div>
             </div>
 
@@ -119,7 +180,7 @@
             </div>
         </div>
 
-        <!-- 3. แถบปุ่มกรองสถานะเทรนด์ด่วน (Status Filter Pills) -->
+        <!-- 4. แถบปุ่มกรองสถานะเทรนด์ด่วน (Status Filter Pills) -->
         <div class="flex flex-wrap items-center gap-2" id="status-pills">
             <button onclick="setFilterState('ALL')" data-state="ALL" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-blue-500/20 border-blue-500/50 text-blue-300">
                 <span>ดูทั้งหมด</span>
@@ -143,7 +204,7 @@
             </button>
         </div>
 
-        <!-- 4. แผงเครื่องมือค้นหา กรองตลาด กรองหุ้นโปรด และจัดเรียง (Control Toolbar) -->
+        <!-- 5. แผงเครื่องมือค้นหา กรองตลาด กรองหุ้นโปรด และจัดเรียง (Control Toolbar) -->
         <div class="bg-[#131824] rounded-2xl border border-white/5 p-4 flex flex-col xl:flex-row xl:items-center gap-3 justify-between shadow-lg">
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 flex-wrap">
                 <!-- ช่องค้นหา -->
@@ -167,7 +228,6 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2.5">
-                <!-- Dropdown สถานะ (ซิงค์กับปุ่มด้านบน) -->
                 <select id="filter-box" class="hidden">
                     <option value="ALL">ดูทั้งหมด (All)</option>
                     <option value="EARLY_UP">⚡ ต้นรอบขาขึ้น (Golden Cross)</option>
@@ -182,6 +242,7 @@
                     <span class="text-xs text-slate-400">เรียงตาม:</span>
                     <select id="sort-box" class="bg-transparent text-xs font-medium text-white outline-none cursor-pointer">
                         <option value="TREND_PRIORITY" class="bg-[#131824]">สัญญาณต้นรอบขาขึ้นก่อน</option>
+                        <option value="RRR_DESC" class="bg-[#131824]">ความคุ้มค่า (RRR) สูงสุด</option>
                         <option value="GAP_ASC" class="bg-[#131824]">จุดเพิ่งตัด (EMA Gap แคบสุด)</option>
                         <option value="GAP_DESC" class="bg-[#131824]">เทรนด์แข็งแกร่งสุด (EMA Gap กว้างสุด)</option>
                         <option value="CHANGE_DESC" class="bg-[#131824]">ราคาบวกแรงสุดวันนี้</option>
@@ -200,7 +261,7 @@
             </div>
         </div>
 
-        <!-- 5. พื้นที่แสดงการ์ดหุ้น -->
+        <!-- 6. พื้นที่แสดงการ์ดหุ้น -->
         <div id="stock-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             <div class="col-span-full text-center py-20 text-slate-500 animate-pulse bg-[#131824] rounded-2xl border border-white/5">
                 <i class="fa-solid fa-satellite-dish text-4xl mb-3 text-blue-400"></i>
@@ -210,15 +271,16 @@
         </div>
     </div>
 
-    <!-- 6. หน้าต่างป๊อปอัปดูกราฟและบทวิเคราะห์ AI เต็มรูปแบบ (Stock Detail Modal) -->
+    <!-- 7. หน้าต่างป๊อปอัปดูกราฟ แผนการตั้งซื้อ และบทวิเคราะห์ AI เต็มรูปแบบ (Stock Detail Modal) -->
     <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4" onclick="closeModal(event)">
-        <div class="bg-[#131824] border border-white/10 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+        <div class="bg-[#131824] border border-white/10 rounded-2xl max-w-4xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
             <div class="flex items-start justify-between gap-4 border-b border-white/5 pb-4">
                 <div>
-                    <div class="flex items-center gap-2.5">
+                    <div class="flex items-center gap-2.5 flex-wrap">
                         <h2 id="modal-symbol" class="text-2xl font-extrabold text-white">AAPL</h2>
                         <span id="modal-market" class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">🇺🇸 US</span>
                         <span id="modal-trend-badge"></span>
+                        <span id="modal-worth-badge"></span>
                     </div>
                     <p id="modal-name" class="text-slate-400 text-sm mt-0.5">Apple Inc.</p>
                 </div>
@@ -227,22 +289,55 @@
                 </button>
             </div>
 
-            <!-- ราคาและค่า EMA ใน Modal -->
+            <!-- 🧮 แถวที่ 1 ใน Modal: แผนการตั้งซื้อ (Limit Buy) + ความคุ้มค่า RRR + จำนวนเงินและหุ้นที่ควรลง -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div class="rounded-xl border border-sky-500/30 bg-sky-500/10 p-3.5">
+                    <p class="text-[11px] font-bold text-sky-400 uppercase">🎯 ราคาที่ควรตั้งซื้อ (Best Buy)</p>
+                    <p id="modal-best-buy" class="text-2xl font-extrabold text-white mt-1">$0.00</p>
+                    <p id="modal-entry-advice" class="text-[11px] text-slate-300 mt-1">-</p>
+                </div>
+
+                <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5">
+                    <p class="text-[11px] font-bold text-emerald-400 uppercase">⚖️ ความคุ้มค่าลงทุน (RRR)</p>
+                    <p id="modal-rrr" class="text-2xl font-extrabold text-white mt-1">1 : 0.0</p>
+                    <p id="modal-target-stop" class="text-[11px] text-slate-300 mt-1">-</p>
+                </div>
+
+                <div class="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-3.5">
+                    <p class="text-[11px] font-bold text-yellow-300 uppercase">💰 ปริมาณเงินที่ควรลงไม้นี้</p>
+                    <p id="modal-alloc-money" class="text-2xl font-extrabold text-white mt-1">$0</p>
+                    <p id="modal-alloc-shares" class="text-[11px] text-slate-300 mt-1">-</p>
+                </div>
+
+                <div class="rounded-xl border border-white/10 bg-[#090D16] p-3.5">
+                    <p class="text-[11px] font-bold text-slate-400 uppercase">📊 จำลองกำไร / ความเสี่ยง</p>
+                    <div class="flex items-center justify-between text-xs mt-2">
+                        <span class="text-slate-400">ถึงเป้า Target:</span>
+                        <span id="modal-profit-money" class="font-bold text-emerald-400">+$0</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs mt-1">
+                        <span class="text-slate-400">หลุด Stop-Loss:</span>
+                        <span id="modal-loss-money" class="font-bold text-rose-400">-$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- แถวที่ 2 ใน Modal: ราคาปัจจุบัน, EMA 50, EMA 200 และสัดส่วนหนี้ฮาลาล -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div class="bg-[#090D16] p-3.5 rounded-xl border border-white/5">
                     <p class="text-[11px] text-slate-500 uppercase">ราคาปัจจุบัน</p>
-                    <p id="modal-price" class="text-xl font-extrabold text-white mt-0.5">$0.00</p>
+                    <p id="modal-price" class="text-lg font-extrabold text-white mt-0.5">$0.00</p>
                     <p id="modal-change" class="text-xs font-semibold mt-0.5">+0.00%</p>
                 </div>
                 <div class="bg-[#090D16] p-3.5 rounded-xl border border-white/5">
                     <p class="text-[11px] text-slate-500 uppercase">เส้นค่าเฉลี่ย EMA 50</p>
                     <p id="modal-ema50" class="text-lg font-bold text-emerald-400 mt-0.5">$0.00</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">แนวโน้มระยะกลาง</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">แนวรับเทรนด์ระยะกลาง</p>
                 </div>
                 <div class="bg-[#090D16] p-3.5 rounded-xl border border-white/5">
                     <p class="text-[11px] text-slate-500 uppercase">เส้นค่าเฉลี่ย EMA 200</p>
                     <p id="modal-ema200" class="text-lg font-bold text-blue-400 mt-0.5">$0.00</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">แนวโน้มระยะยาว</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">แนวรับเทรนด์ระยะยาว</p>
                 </div>
                 <div class="bg-[#090D16] p-3.5 rounded-xl border border-white/5">
                     <p class="text-[11px] text-slate-500 uppercase">สัดส่วนหนี้ฮาลาล</p>
@@ -251,11 +346,15 @@
                 </div>
             </div>
 
-            <!-- กราฟ SVG เปรียบเทียบแนวโน้มราคา -->
+            <!-- กราฟ SVG เปรียบเทียบแนวโน้มราคา + เส้น EMA 50/200 -->
             <div class="bg-[#090D16] p-4 rounded-xl border border-white/5">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-bold text-white"><i class="fa-solid fa-chart-area text-blue-400 mr-1.5"></i> กราฟการเคลื่อนไหวของราคาย้อนหลัง</span>
-                    <span id="modal-gap" class="text-xs text-slate-400">EMA Gap: 0.0%</span>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <span class="text-xs font-bold text-white"><i class="fa-solid fa-chart-area text-blue-400 mr-1.5"></i> กราฟราคาย้อนหลัง 120 วัน & เส้นค่าเฉลี่ย</span>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-400">
+                        <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-emerald-400 inline-block"></span> EMA 50</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-blue-400 inline-block"></span> EMA 200</span>
+                        <span id="modal-gap" class="text-slate-300 font-semibold">EMA Gap: 0.0%</span>
+                    </div>
                 </div>
                 <div id="modal-chart-box" class="w-full h-52 flex items-center justify-center"></div>
             </div>
@@ -274,6 +373,7 @@
     <script>
         // 🌟 URL เชื่อมต่อหลังบ้านโปรเจกต์ 2
         const API_URL = 'https://trend-following-bot.onrender.com/api/stocks';
+        let rawApiStocks = [];
         let processedStocksData = []; 
         let pollingTimer;
 
@@ -283,6 +383,13 @@
         let onlyFavFilter = false;
         let favorites = [];
 
+        // 💼 สถานะเงินสดในมือและขนาดไม้ลงทุน (โหลดจาก localStorage)
+        let portfolio = { thCash: 50000, usCash: 1500, baseAllocPct: 15 };
+        try {
+            const savedPort = localStorage.getItem('trend_portfolio_cash');
+            if (savedPort) portfolio = { ...portfolio, ...JSON.parse(savedPort) };
+        } catch (e) {}
+
         // โหลดรายการหุ้นโปรดจาก localStorage
         try {
             const savedFav = localStorage.getItem('trend_fav_tickers');
@@ -290,6 +397,48 @@
         } catch (e) {
             favorites = ['AAPL', 'NVDA', 'DELTA.BK', 'BH.BK'];
         }
+
+        // ซิงค์ค่าเริ่มต้นลงช่อง Input เงินสด
+        document.getElementById('input-th-cash').value = portfolio.thCash;
+        document.getElementById('input-us-cash').value = portfolio.usCash;
+        updateAllocButtonsUI();
+
+        function savePortfolio() {
+            try {
+                localStorage.setItem('trend_portfolio_cash', JSON.stringify(portfolio));
+            } catch (e) {}
+        }
+
+        function setBaseAllocPct(pct) {
+            portfolio.baseAllocPct = Number(pct) || 15;
+            savePortfolio();
+            updateAllocButtonsUI();
+            recalculateAllStocks();
+        }
+
+        function updateAllocButtonsUI() {
+            document.getElementById('alloc-pct-label').innerText = `${portfolio.baseAllocPct}% / ไม้`;
+            document.querySelectorAll('.alloc-btn').forEach(btn => {
+                const btnPct = Number(btn.getAttribute('data-pct'));
+                if (btnPct === portfolio.baseAllocPct) {
+                    btn.className = 'alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-blue-500/25 border-blue-500/50 text-blue-300';
+                } else {
+                    btn.className = 'alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                }
+            });
+        }
+
+        document.getElementById('input-th-cash').addEventListener('input', (e) => {
+            portfolio.thCash = Math.max(0, Number(e.target.value) || 0);
+            savePortfolio();
+            recalculateAllStocks();
+        });
+
+        document.getElementById('input-us-cash').addEventListener('input', (e) => {
+            portfolio.usCash = Math.max(0, Number(e.target.value) || 0);
+            savePortfolio();
+            recalculateAllStocks();
+        });
 
         function saveFavorites() {
             try {
@@ -308,7 +457,6 @@
             updateDisplay();
         }
 
-        // เช็คเวลาเปิด-ปิดตลาดตามเวลาจริง (US & TH)
         function updateLiveMarketBadge() {
             const now = new Date();
             const day = now.getUTCDay();
@@ -368,68 +516,9 @@
                 statusText.innerHTML = `อัปเดต: <span class="text-emerald-400">${timeNow}</span>`;
                 setTimeout(() => btnIcon.classList.remove('animate-spin'), 500);
 
-                processedStocksData = (result.data || []).map(stock => {
-                    const isTH = stock.market === 'TH' || (stock.symbol && stock.symbol.toUpperCase().endsWith('.BK'));
-                    const market = isTH ? 'TH' : 'US';
-                    const currency = stock.currency || (isTH ? '฿' : '$');
-                    const cleanName = (stock.name || stock.symbol).replace(/^[A-Z0-9]+\s*_/, '');
-
-                    const ema50 = stock.ema50 || calculateEMA(stock.historicalPrices, 50);
-                    const ema200 = stock.ema200 || calculateEMA(stock.historicalPrices, 200);
-                    const gapPercent = ema200 > 0 ? ((ema50 - ema200) / ema200) * 100 : 0;
-                    
-                    let statusKey = 'UNKNOWN';
-                    let priorityRank = 5;
-                    if (ema50 > ema200) {
-                        if (gapPercent <= 3.0) {
-                            statusKey = 'EARLY_UP';
-                            priorityRank = 1;
-                        } else {
-                            statusKey = 'UP';
-                            priorityRank = 2;
-                        }
-                    } else if (ema50 < ema200) {
-                        if (gapPercent >= -3.0) {
-                            statusKey = 'WARNING';
-                            priorityRank = 3;
-                        } else {
-                            statusKey = 'DOWN';
-                            priorityRank = 4;
-                        }
-                    }
-
-                    // คำนวณกรอบราคาต่ำสุด-สูงสุดในรอบ 60 วันล่าสุดเพื่อทำ Range Bar
-                    const recentPrices = (stock.historicalPrices || []).slice(-60);
-                    const low60 = recentPrices.length > 0 ? Math.min(...recentPrices) : stock.price;
-                    const high60 = recentPrices.length > 0 ? Math.max(...recentPrices) : stock.price;
-                    const span = high60 - low60;
-                    const rangePos = span > 0 ? Math.min(100, Math.max(0, Math.round(((stock.price - low60) / span) * 100))) : 50;
-
-                    const aiSummaryText = (stock.aiSummary && stock.aiSummary.trim() !== "") 
-                                          ? stock.aiSummary.trim() 
-                                          : "รอยืนยันสัญญาณเปลี่ยนเทรนด์ในรอบถัดไป...";
-
-                    return {
-                        ...stock,
-                        name: cleanName,
-                        market,
-                        currency,
-                        price: Number(stock.price || 0),
-                        change: Number(stock.change || 0),
-                        debtRatio: Number(stock.debtRatio || 0),
-                        ema50,
-                        ema200,
-                        gapPercent,
-                        statusKey,
-                        priorityRank,
-                        low60,
-                        high60,
-                        rangePos,
-                        aiSummaryText
-                    };
-                });
+                rawApiStocks = result.data || [];
+                recalculateAllStocks();
                 
-                updateDisplay();
                 pollingTimer = setTimeout(() => fetchStocks(), 60000);
 
             } catch (error) {
@@ -440,6 +529,179 @@
                 
                 pollingTimer = setTimeout(() => fetchStocks(), 8000);
             }
+        }
+
+        // 🎯 คำนวณสถานะเทรนด์ + จุดตั้งซื้อที่ดีที่สุด + ความคุ้มค่า (RRR) + ขนาดเงินลงทุนจากเงินสดในมือ
+        function recalculateAllStocks() {
+            if (!rawApiStocks || rawApiStocks.length === 0) return;
+
+            processedStocksData = rawApiStocks.map(stock => {
+                const isTH = stock.market === 'TH' || (stock.symbol && stock.symbol.toUpperCase().endsWith('.BK'));
+                const market = isTH ? 'TH' : 'US';
+                const currency = stock.currency || (isTH ? '฿' : '$');
+                const cleanName = (stock.name || stock.symbol).replace(/^[A-Z0-9]+\s*_/, '');
+                const price = Number(stock.price || 0);
+
+                const ema50 = stock.ema50 || calculateEMA(stock.historicalPrices, 50);
+                const ema200 = stock.ema200 || calculateEMA(stock.historicalPrices, 200);
+                const gapPercent = ema200 > 0 ? ((ema50 - ema200) / ema200) * 100 : 0;
+                
+                let statusKey = 'UNKNOWN';
+                let priorityRank = 5;
+                if (ema50 > ema200) {
+                    if (gapPercent <= 3.0) {
+                        statusKey = 'EARLY_UP';
+                        priorityRank = 1;
+                    } else {
+                        statusKey = 'UP';
+                        priorityRank = 2;
+                    }
+                } else if (ema50 < ema200) {
+                    if (gapPercent >= -3.0) {
+                        statusKey = 'WARNING';
+                        priorityRank = 3;
+                    } else {
+                        statusKey = 'DOWN';
+                        priorityRank = 4;
+                    }
+                }
+
+                // กรอบราคา 60 วันล่าสุด
+                const recentPrices = (stock.historicalPrices || []).slice(-60);
+                const low60 = recentPrices.length > 0 ? Math.min(...recentPrices) : price * 0.92;
+                const high60 = recentPrices.length > 0 ? Math.max(...recentPrices) : price * 1.12;
+                const span = Math.max(0.01, high60 - low60);
+                const rangePos = price > 0 ? Math.min(100, Math.max(0, Math.round(((price - low60) / span) * 100))) : 50;
+
+                // 1. คำนวณราคาที่ควรตั้งซื้อตามเทรนด์ (Best Trend Pullback Limit Buy)
+                let rawBestBuy = price;
+                let entryAdvice = 'เคาะซื้อตามเทรนด์ได้ทันที';
+                if (!stock.isHalal) {
+                    rawBestBuy = low60;
+                    entryAdvice = 'งดลงทุน (หนี้เกินเกณฑ์ฮาลาล 33%)';
+                } else if (statusKey === 'EARLY_UP' || statusKey === 'UP') {
+                    // ในขาขึ้น จุดรับที่ดีที่สุดคือใกล้เส้นแนวรับ EMA 50 (ไม่เกิน +1.5% เหนือ EMA 50)
+                    const pullbackZone = ema50 > 0 ? ema50 * 1.012 : price * 0.98;
+                    if (price <= pullbackZone * 1.015) {
+                        rawBestBuy = price;
+                        entryAdvice = statusKey === 'EARLY_UP'
+                            ? '⚡ ต้นรอบ Golden Cross เคาะซื้อได้ทันที'
+                            : 'ราคาย่อใกล้ EMA 50 เข้าซื้อได้เปรียบ';
+                    } else {
+                        rawBestBuy = Math.max(ema50, Math.min(price * 0.97, pullbackZone));
+                        entryAdvice = `แนะนำตั้ง Limit รอรับย่อใกล้ EMA 50`;
+                    }
+                } else {
+                    // ขาลงหรือเตือนภัย Death Cross ให้รอที่แนวรับ 60 วัน
+                    rawBestBuy = low60;
+                    entryAdvice = 'กราฟขาลง แนะนำชะลอหรือรอตั้งรับแนวรับล่าง';
+                }
+                const bestBuyPrice = Math.round(rawBestBuy * 100) / 100;
+                const entryDiscountPct = price > 0 ? Math.max(0, Number((((price - bestBuyPrice) / price) * 100).toFixed(1))) : 0;
+
+                // 2. คำนวณ Stop-Loss (จุดหนีตายเมื่อหลุดเทรนด์) และ Target Price (เป้ารันเทรนด์)
+                const trendSupportStop = (ema200 > 0 && price > ema200) ? ema200 * 0.985 : low60 * 0.985;
+                const rawStop = price > 0 ? Math.min(price * 0.97, Math.max(price * 0.91, trendSupportStop)) : 0;
+                const stopLoss = Math.round(rawStop * 100) / 100;
+
+                const rawTarget = (statusKey === 'EARLY_UP' || statusKey === 'UP')
+                    ? Math.max(high60 * 1.03, price * 1.12)
+                    : Math.max(ema50, price * 1.05);
+                const targetPrice = Math.round(rawTarget * 100) / 100;
+
+                const upsidePct = price > 0 ? Math.max(0.5, Number((((targetPrice - price) / price) * 100).toFixed(1))) : 1;
+                const downsidePct = price > 0 ? Math.max(0.8, Number((((price - stopLoss) / price) * 100).toFixed(1))) : 1;
+
+                // 3. คำนวณความคุ้มค่าในการลงทุน (RRR)
+                const rrr = Number((upsidePct / downsidePct).toFixed(2));
+                let worthLabel = `RRR 1:${rrr}`;
+                let worthClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+
+                if (!stock.isHalal) {
+                    worthLabel = 'ไม่ผ่านฮาลาล';
+                    worthClass = 'bg-rose-500/15 text-rose-300 border-rose-500/30';
+                } else if (statusKey === 'DOWN' || statusKey === 'WARNING') {
+                    worthLabel = `⚠️ ขาลง/ไม่คุ้มเสี่ยง (1:${rrr})`;
+                    worthClass = 'bg-rose-500/15 text-rose-300 border-rose-500/30';
+                } else if (rrr >= 2.0) {
+                    worthLabel = `🔥 คุ้มค่ามาก (RRR 1:${rrr})`;
+                    worthClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                } else if (rrr >= 1.4) {
+                    worthLabel = `✅ น่ารันเทรนด์ (RRR 1:${rrr})`;
+                    worthClass = 'bg-teal-500/15 text-teal-300 border-teal-500/30';
+                } else {
+                    worthLabel = `⏳ รอย่อจะคุ้มกว่า (1:${rrr})`;
+                    worthClass = 'bg-yellow-500/20 text-yellow-300 border-yellow-400/40';
+                }
+
+                // 4. คำนวณปริมาณเงินที่ควรลง (Position Sizing) จากเงินสดในมือ
+                const availableCash = isTH ? Number(portfolio.thCash || 0) : Number(portfolio.usCash || 0);
+                const basePct = Number(portfolio.baseAllocPct || 15);
+                let allocPct = 0;
+
+                if (stock.isHalal && price > 0) {
+                    if (statusKey === 'EARLY_UP' && rrr >= 1.6) {
+                        allocPct = Math.min(40, Math.round(basePct * 1.5)); // ไม้ใหญ่พิเศษ ต้นรอบ Golden Cross
+                    } else if (statusKey === 'EARLY_UP') {
+                        allocPct = Math.min(35, Math.round(basePct * 1.25));
+                    } else if (statusKey === 'UP' && rrr >= 1.6) {
+                        allocPct = basePct; // ไม้มาตรฐานรันเทรนด์ขาขึ้น
+                    } else if (statusKey === 'UP') {
+                        allocPct = Math.max(5, Math.round(basePct * 0.7)); // ไม้สะสมรอรับย่อ
+                    } else {
+                        allocPct = 0; // ขาลง / Death Cross งดลงเงินเพิ่ม
+                    }
+                }
+
+                const allocAmount = Math.round((availableCash * allocPct) / 100);
+                const execPrice = bestBuyPrice > 0 ? bestBuyPrice : price;
+                const rawShares = execPrice > 0 ? allocAmount / execPrice : 0;
+                const recommendedShares = rawShares >= 1 ? Math.floor(rawShares) : Number(rawShares.toFixed(2));
+
+                const expectedProfitMoney = Math.round(allocAmount * (upsidePct / 100));
+                const maxLossMoney = Math.round(allocAmount * (downsidePct / 100));
+
+                const aiSummaryText = (stock.aiSummary && stock.aiSummary.trim() !== "") 
+                                      ? stock.aiSummary.trim() 
+                                      : "รอยืนยันสัญญาณเปลี่ยนเทรนด์ในรอบถัดไป...";
+
+                return {
+                    ...stock,
+                    name: cleanName,
+                    market,
+                    currency,
+                    price,
+                    change: Number(stock.change || 0),
+                    debtRatio: Number(stock.debtRatio || 0),
+                    ema50,
+                    ema200,
+                    gapPercent,
+                    statusKey,
+                    priorityRank,
+                    low60,
+                    high60,
+                    rangePos,
+                    bestBuyPrice,
+                    entryDiscountPct,
+                    entryAdvice,
+                    stopLoss,
+                    targetPrice,
+                    upsidePct,
+                    downsidePct,
+                    rrr,
+                    worthLabel,
+                    worthClass,
+                    availableCash,
+                    allocPct,
+                    allocAmount,
+                    recommendedShares,
+                    expectedProfitMoney,
+                    maxLossMoney,
+                    aiSummaryText
+                };
+            });
+
+            updateDisplay();
         }
 
         function setFilterState(state) {
@@ -505,13 +767,15 @@
             const warnCount = processedStocksData.filter(s => s.statusKey === 'WARNING').length;
             const downCount = processedStocksData.filter(s => s.statusKey === 'DOWN').length;
             const halalCount = processedStocksData.filter(s => s.isHalal).length;
+            const highRrrCount = processedStocksData.filter(s => s.isHalal && (s.statusKey === 'EARLY_UP' || s.statusKey === 'UP') && s.rrr >= 1.5).length;
             const favCount = processedStocksData.filter(s => favorites.includes(s.symbol)).length;
 
             document.getElementById('stat-total').innerText = total;
             document.getElementById('stat-market-split').innerText = `🇺🇸 US ${usCount} | 🇹🇭 TH ${thCount}`;
             document.getElementById('stat-uptrend').innerText = earlyUpCount + upCount;
             document.getElementById('stat-early-up').innerText = `⚡ ต้นรอบ Golden Cross ${earlyUpCount} ตัว`;
-            document.getElementById('stat-halal').innerText = `${halalCount}/${total}`;
+            document.getElementById('stat-high-rrr').innerText = highRrrCount;
+            document.getElementById('stat-halal').innerText = `ผ่านเกณฑ์ฮาลาล ${halalCount}/${total} ตัว`;
             document.getElementById('stat-fav').innerText = favCount;
             document.getElementById('fav-filter-label').innerText = `หุ้นโปรด (${favCount})`;
 
@@ -524,7 +788,7 @@
 
         function getTrendBadgeHtml(statusKey) {
             if (statusKey === 'EARLY_UP') {
-                return `<span class="px-2.5 py-1 bg-yellow-500/20 text-yellow-300 text-[11px] font-bold rounded-lg border border-yellow-500/50 shadow-[0_0_12px_rgba(234,179,8,0.25)] animate-pulse"><i class="fa-solid fa-bolt text-yellow-300 mr-1"></i>ต้นรอบขาขึ้น</span>`;
+                return `<span class="px-2.5 py-1 bg-yellow-500/20 text-yellow-300 text-[11px] font-bold rounded-lg border border-yellow-400/50 shadow-[0_0_12px_rgba(234,179,8,0.25)] animate-pulse"><i class="fa-solid fa-bolt text-yellow-300 mr-1"></i>ต้นรอบขาขึ้น</span>`;
             } else if (statusKey === 'UP') {
                 return `<span class="px-2.5 py-1 bg-emerald-500/15 text-emerald-400 text-[11px] font-semibold rounded-lg border border-emerald-500/30"><i class="fa-solid fa-arrow-trend-up mr-1"></i>ขาขึ้น</span>`;
             } else if (statusKey === 'WARNING') {
@@ -561,8 +825,9 @@
 
                 if (sortBy === 'TREND_PRIORITY') {
                     if (a.priorityRank !== b.priorityRank) return a.priorityRank - b.priorityRank;
-                    return b.gapPercent - a.gapPercent;
+                    return b.rrr - a.rrr;
                 }
+                if (sortBy === 'RRR_DESC') return b.rrr - a.rrr;
                 if (sortBy === 'GAP_ASC') return Math.abs(a.gapPercent) - Math.abs(b.gapPercent);
                 if (sortBy === 'GAP_DESC') return b.gapPercent - a.gapPercent;
                 if (sortBy === 'CHANGE_DESC') return b.change - a.change;
@@ -584,18 +849,16 @@
                 const isFav = favorites.includes(stock.symbol);
                 const trendBadge = getTrendBadgeHtml(stock.statusKey);
 
-                // แยกโทนสีการ์ดตามสัญญาณเทรนด์และสถานะติดดาว
+                // แยกโทนสีการ์ดตามสัญญาณเทรนด์
                 let cardBorder = 'border-white/5 hover:border-blue-500/40 bg-[#131824]';
-                if (isFav) {
-                    cardBorder = 'border-amber-400/40 hover:border-amber-400/80 bg-gradient-to-b from-[#191E2E] via-[#131824] to-amber-950/15 shadow-[0_0_20px_rgba(245,158,11,0.08)]';
-                } else if (stock.statusKey === 'EARLY_UP') {
-                    cardBorder = 'border-yellow-500/40 hover:border-yellow-400 bg-gradient-to-b from-[#1E242B] via-[#131824] to-yellow-900/20 shadow-[0_0_20px_rgba(234,179,8,0.08)]';
+                if (stock.statusKey === 'EARLY_UP') {
+                    cardBorder = 'border-yellow-500/40 hover:border-yellow-400 bg-gradient-to-b from-[#221F14] via-[#131824] to-yellow-900/20 shadow-[0_0_20px_rgba(234,179,8,0.08)]';
                 } else if (stock.statusKey === 'UP') {
-                    cardBorder = 'border-emerald-500/25 hover:border-emerald-400/60 bg-gradient-to-b from-[#132226] to-[#131824]';
+                    cardBorder = 'border-emerald-500/30 hover:border-emerald-400/70 bg-gradient-to-b from-[#132226] via-[#131824] to-emerald-950/15';
                 } else if (stock.statusKey === 'WARNING') {
                     cardBorder = 'border-orange-500/40 hover:border-orange-400 bg-gradient-to-b from-[#251A22] via-[#131824] to-orange-900/20';
                 } else if (stock.statusKey === 'DOWN') {
-                    cardBorder = 'border-rose-500/20 hover:border-rose-500/40 bg-[#131824]';
+                    cardBorder = 'border-rose-500/25 hover:border-rose-500/50 bg-gradient-to-b from-[#20141E] to-[#131824]';
                 }
 
                 const priceColor = stock.change >= 0 ? 'text-emerald-400' : 'text-rose-400';
@@ -611,6 +874,10 @@
                 const starBtnClass = isFav
                     ? 'bg-amber-500/20 border-amber-400/50 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
                     : 'bg-white/[0.03] border-white/10 text-slate-500 hover:text-amber-300';
+
+                const allocHtml = stock.allocPct > 0
+                    ? `<span class="font-bold text-white">${curr}${stock.allocAmount.toLocaleString()} <span class="text-emerald-400 font-semibold">(${stock.recommendedShares} หุ้น)</span></span>`
+                    : `<span class="text-rose-400 font-semibold">งดลงทุนเพิ่ม (0%)</span>`;
 
                 const card = `
                     <div onclick="openStockModal('${stock.symbol}')" class="ai-card fade-in rounded-2xl p-5 border transition-all duration-300 shadow-lg hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col justify-between h-full ${cardBorder}">
@@ -632,8 +899,8 @@
                                 </div>
                             </div>
                             
-                            <!-- แถวราคาปัจจุบัน + สถานะหนี้ฮาลาล -->
-                            <div class="flex items-end justify-between pb-3.5 mb-3.5 border-b border-white/5">
+                            <!-- แถวราคาปัจจุบัน + ป้ายความคุ้มค่า (RRR) + สถานะหนี้ฮาลาล -->
+                            <div class="flex items-end justify-between pb-3 mb-3 border-b border-white/5">
                                 <div>
                                     <p class="text-[10px] text-slate-500 uppercase tracking-wider">Current Price</p>
                                     <div class="flex items-baseline gap-2 mt-0.5">
@@ -641,21 +908,44 @@
                                         <span class="text-xs font-bold ${priceColor}">${sign}${stock.change.toFixed(2)}%</span>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium border ${stock.isHalal ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-rose-500/10 border-rose-500/30 text-rose-400'}">
-                                    <i class="fa-solid fa-mosque mr-1"></i>หนี้ ${stock.debtRatio.toFixed(1)}%
-                                </span>
+                                <div class="flex flex-col items-end gap-1">
+                                    <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold border ${stock.worthClass}">
+                                        ${stock.worthLabel}
+                                    </span>
+                                    <span class="text-[11px] font-medium ${stock.isHalal ? 'text-emerald-400' : 'text-rose-400'}">
+                                        <i class="fa-solid fa-mosque mr-1"></i>หนี้ ${stock.debtRatio.toFixed(1)}%
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- 🎯 กล่องใหม่: ราคาที่ควรตั้งซื้อ (Best Limit Buy) + งบที่ควรลงจากเงินในมือ -->
+                            <div class="rounded-xl bg-[#090D16]/90 border border-sky-500/25 p-3 mb-3 space-y-2">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="min-w-0">
+                                        <p class="text-[10px] text-sky-400 font-bold uppercase tracking-wide">🎯 ราคาที่ควรตั้งซื้อ (Best Buy)</p>
+                                        <p class="text-[11px] text-slate-400 truncate mt-0.5" title="${stock.entryAdvice}">${stock.entryAdvice}</p>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span class="text-sm font-extrabold text-sky-300">${curr}${stock.bestBuyPrice.toFixed(2)}</span>
+                                        ${stock.entryDiscountPct > 0 ? `<p class="text-[10px] text-emerald-400">รอรับ -${stock.entryDiscountPct}%</p>` : ''}
+                                    </div>
+                                </div>
+                                <div class="pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+                                    <span class="text-slate-400"><i class="fa-solid fa-wallet text-emerald-400 mr-1"></i>งบควรลง (${stock.allocPct}%):</span>
+                                    ${allocHtml}
+                                </div>
                             </div>
 
                             <!-- กล่องเปรียบเทียบ EMA 50 และ EMA 200 -->
-                            <div class="grid grid-cols-2 gap-2.5 mb-3">
+                            <div class="grid grid-cols-2 gap-2 mb-2.5">
                                 <div class="rounded-xl bg-[#090D16]/80 border border-white/5 px-3 py-2">
-                                    <p class="text-[10px] text-slate-400 uppercase">EMA 50 (ระยะกลาง)</p>
+                                    <p class="text-[10px] text-slate-400 uppercase">EMA 50 (แนวรับกลาง)</p>
                                     <p class="text-sm font-bold mt-0.5 ${stock.ema50 > stock.ema200 ? 'text-emerald-400' : 'text-rose-400'}">
                                         ${stock.ema50 > 0 ? curr + stock.ema50.toFixed(2) : '-'}
                                     </p>
                                 </div>
                                 <div class="rounded-xl bg-[#090D16]/80 border border-white/5 px-3 py-2">
-                                    <p class="text-[10px] text-slate-400 uppercase">EMA 200 (ระยะยาว)</p>
+                                    <p class="text-[10px] text-slate-400 uppercase">EMA 200 (แนวรับใหญ่)</p>
                                     <p class="text-sm font-bold text-blue-400 mt-0.5">
                                         ${stock.ema200 > 0 ? curr + stock.ema200.toFixed(2) : '-'}
                                     </p>
@@ -671,19 +961,19 @@
                                     </span>
                                 </div>
                                 <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                                    <div class="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-400 to-emerald-400" style="width: ${stock.rangePos}%"></div>
+                                    <div class="h-full rounded-full bg-gradient-to-r from-blue-500 via-emerald-400 to-yellow-400" style="width: ${stock.rangePos}%"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- กล่อง AI Analyst Insight (แก้ไขตัดช่องว่างบรรทัดแรกให้ชิดซ้ายสวยงาม) -->
+                        <!-- กล่อง AI Analyst Insight -->
                         <div class="p-3 rounded-xl border ${aiBoxBg} transition-all duration-300">
                             <div class="flex items-center justify-between mb-1">
                                 <div class="flex items-center gap-1.5">
                                     <i class="fa-solid fa-wand-magic-sparkles ${aiIconColor} text-[10px]"></i>
                                     <span class="text-[10px] font-bold uppercase tracking-wide ${aiTitleColor}">AI Analyst Insight</span>
                                 </div>
-                                <span class="text-[10px] text-blue-400 font-medium">คลิกดูกราฟ <i class="fa-solid fa-angle-right"></i></span>
+                                <span class="text-[10px] text-blue-400 font-medium">แผนเทรด <i class="fa-solid fa-angle-right"></i></span>
                             </div>
                             <p class="text-[11px] leading-relaxed ai-text-clamp whitespace-pre-wrap ${aiTextColor}">${stock.aiSummaryText.trim()}</p>
                         </div>
@@ -693,7 +983,7 @@
             });
         }
 
-        // เปิดหน้าต่าง Modal แสดงกราฟและรายละเอียดหุ้น
+        // เปิดหน้าต่าง Modal แสดงกราฟ แผนการตั้งซื้อ และรายละเอียดหุ้น
         function openStockModal(symbol) {
             const stock = processedStocksData.find(s => s.symbol === symbol);
             if (!stock) return;
@@ -703,8 +993,23 @@
             document.getElementById('modal-market').innerText = stock.market === 'TH' ? '🇹🇭 SET Thailand' : '🇺🇸 US Market';
             document.getElementById('modal-name').innerText = stock.name;
             document.getElementById('modal-trend-badge').innerHTML = getTrendBadgeHtml(stock.statusKey);
-            document.getElementById('modal-price').innerText = `${curr}${stock.price.toFixed(2)}`;
+            document.getElementById('modal-worth-badge').innerHTML = `<span class="px-2.5 py-1 rounded-lg text-xs font-bold border ${stock.worthClass}">${stock.worthLabel}</span>`;
             
+            // ข้อมูลแผนการตั้งซื้อ & ขนาดเงินลงทุน
+            document.getElementById('modal-best-buy').innerText = `${curr}${stock.bestBuyPrice.toFixed(2)}`;
+            document.getElementById('modal-entry-advice').innerText = stock.entryAdvice;
+            document.getElementById('modal-rrr').innerText = `1 : ${stock.rrr}`;
+            document.getElementById('modal-target-stop').innerText = `เป้า ${curr}${stock.targetPrice.toFixed(2)} (+${stock.upsidePct}%) | Stop ${curr}${stock.stopLoss.toFixed(2)} (-${stock.downsidePct}%)`;
+            
+            document.getElementById('modal-alloc-money').innerText = `${curr}${stock.allocAmount.toLocaleString()} (${stock.allocPct}%)`;
+            document.getElementById('modal-alloc-shares').innerText = stock.allocPct > 0
+                ? `ตั้งซื้อได้ประมาณ ${stock.recommendedShares} หุ้น (จากงบ ${curr}${stock.availableCash.toLocaleString()})`
+                : `ยังไม่แนะนำให้ลงเงินเพิ่มในสถานะเทรนด์นี้`;
+
+            document.getElementById('modal-profit-money').innerText = `+${curr}${stock.expectedProfitMoney.toLocaleString()}`;
+            document.getElementById('modal-loss-money').innerText = `-${curr}${stock.maxLossMoney.toLocaleString()}`;
+
+            document.getElementById('modal-price').innerText = `${curr}${stock.price.toFixed(2)}`;
             const changeEl = document.getElementById('modal-change');
             changeEl.innerText = `${stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)}%`;
             changeEl.className = `text-xs font-semibold mt-0.5 ${stock.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
