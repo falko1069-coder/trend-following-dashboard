@@ -44,11 +44,11 @@
                             Trend Following PRO
                         </h1>
                         <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                            AI Buddy, P/L & Purification Desk
+                            AI Buddy, Cross-Currency Allocator & P/L Desk
                         </span>
                     </div>
                     <p id="page-main-sub" class="text-slate-400 text-xs sm:text-sm mt-0.5">
-                        <i class="fa-solid fa-robot text-indigo-400 mr-1"></i> เพื่อนคู่หู AI สแกนต้นรอบ EMA 50/200 ฟันธงจังหวะซื้อ ติดตามกำไรพอร์ตจริง และคำนวณชำระปันผลฮาลาล
+                        <i class="fa-solid fa-robot text-indigo-400 mr-1"></i> เพื่อนคู่หู AI สแกนต้นรอบ EMA 50/200 จัดสรรเงินข้ามตลาด (฿/$) แนะนำสลับตัวเล่น และชำระปันผลฮาลาล
                     </p>
                 </div>
             </div>
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <!-- 💼 2. แผงควบคุม "พอร์ตเงินสดในมือ & คำนวณขนาดไม้ลงทุนอัตโนมัติ" (แสดงทั้ง 2 หน้าเหมือนในภาพ) -->
+        <!-- 💼 2. แผงควบคุม "พอร์ตเงินสดในมือ & เรทแลกเปลี่ยนอัตโนมัติ" (แสดงทั้ง 2 หน้า) -->
         <div class="rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-[#131D2B] via-[#131824] to-[#132024] p-4 shadow-lg">
             <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
                 <div class="flex items-start sm:items-center gap-3">
@@ -94,23 +94,23 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2 flex-wrap">
-                            <h3 class="text-white font-bold text-sm">พอร์ตเงินสดในมือ & คำนวณขนาดไม้รันเทรนด์อัตโนมัติ</h3>
+                            <h3 class="text-white font-bold text-sm">พอร์ตเงินสดในมือ & คำนวณขนาดไม้รันเทรนด์อัตโนมัติ (รองรับทั้ง ฿ และ $)</h3>
                             <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto-Saved</span>
                             <button type="button" id="cashbar-portfolio-btn" onclick="switchMainView('myportfolio')" class="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-500/25 text-indigo-300 border border-indigo-400/40 hover:bg-indigo-500/35 font-semibold transition-all">
-                                💼 เปิดหน้า Portfolio & ชำระปันผล →
+                                🎯 AI จัดสรรเงินข้ามตลาด & ปรับพอร์ต →
                             </button>
                         </div>
                         <p class="text-slate-400 text-xs mt-0.5">
-                            แก้ไขเงินสดในมือได้ตลอดเวลา เพื่อน AI จะคำนวณจุดตั้งซื้อ ความคุ้มค่า (RRR) และจำนวนหุ้นที่ควรซื้อในแต่ละการ์ดทันที
+                            พิมพ์แก้จำนวนเงินในมือและเรทแลกเปลี่ยนได้ตลอดเวลา ใช้เงินบาทหรือดอลลาร์คำนวณซื้อหุ้นได้ทุกตัว
                         </p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 xl:w-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xl:w-auto">
                     <!-- งบหุ้นไทย -->
                     <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-emerald-500/50 transition-all">
                         <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
-                            <span>🇹🇭 งบหุ้นไทยในมือ (฿)</span>
+                            <span>🇹🇭 งบเงินบาทในมือ (฿)</span>
                             <span class="text-emerald-400 font-semibold">THB</span>
                         </label>
                         <div class="flex items-center gap-1 mt-1">
@@ -122,12 +122,24 @@
                     <!-- งบหุ้นอเมริกา -->
                     <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-emerald-500/50 transition-all">
                         <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
-                            <span>🇺🇸 งบหุ้นอเมริกาในมือ ($)</span>
+                            <span>🇺🇸 งบดอลลาร์ในมือ ($)</span>
                             <span class="text-sky-400 font-semibold">USD</span>
                         </label>
                         <div class="flex items-center gap-1 mt-1">
                             <span class="text-slate-400 font-bold text-sm">$</span>
                             <input type="number" id="input-us-cash" min="0" step="100" value="1500" class="w-full bg-transparent text-white font-bold text-sm outline-none">
+                        </div>
+                    </div>
+
+                    <!-- เรทแลกเปลี่ยน USD/THB -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-emerald-500/50 transition-all">
+                        <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
+                            <span>💱 เรทแลกเปลี่ยน ($1)</span>
+                            <span class="text-indigo-400 font-semibold">USD/THB</span>
+                        </label>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-slate-400 font-bold text-xs">$1 = ฿</span>
+                            <input type="number" id="input-fx-rate" min="1" step="0.1" value="34.5" class="w-full bg-transparent text-white font-bold text-sm outline-none">
                         </div>
                     </div>
 
@@ -222,7 +234,7 @@
                             <span id="summary-us-pnl" class="font-extrabold text-emerald-400 ml-1">(+$0.00)</span>
                         </div>
                         <button type="button" onclick="switchMainView('myportfolio')" class="px-3 py-1.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-400/40 text-indigo-200 font-bold transition-all">
-                            ดูตารางพอร์ต & ชำระปันผล →
+                            🔄 ดูคำแนะนำปรับพอร์ต & สลับตัวเล่น →
                         </button>
                     </div>
                 </div>
@@ -329,11 +341,11 @@
         </div>
 
         <!-- ======================================================================= -->
-        <!-- VIEW 2: หน้า PORTFOLIO & PURIFY (เหมือนในภาพโปรเจกต์ 1 ทุกจุด 100%) -->
+        <!-- VIEW 2: หน้า PORTFOLIO & PURIFY (พร้อม AI จัดสรรเงินอิสระ & สลับตัวเล่นข้ามตลาด) -->
         <!-- ======================================================================= -->
         <div id="view-portfolio-section" class="hidden space-y-6 fade-in">
             
-            <!-- แถวที่ 1: สรุปมูลค่าพอร์ตหุ้นที่ถือจริง แยกไทย (฿) และอเมริกา ($) เหมือนในภาพ -->
+            <!-- แถวที่ 1: สรุปมูลค่าพอร์ตหุ้นที่ถือจริง แยกไทย (฿) และอเมริกา ($) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- การ์ดพอร์ตหุ้นไทย -->
                 <div class="rounded-2xl border border-white/10 p-5 bg-[#131824]">
@@ -376,7 +388,7 @@
                 </div>
             </div>
 
-            <!-- แถวที่ 2: รายการหุ้นที่คุณซื้อถืออยู่จริง (Active Positions) เหมือนในภาพ -->
+            <!-- แถวที่ 2: รายการหุ้นที่คุณซื้อถืออยู่จริง (Active Positions) -->
             <div class="rounded-2xl border border-white/5 p-5 bg-[#131824]">
                 <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <div>
@@ -388,11 +400,11 @@
                     </button>
                 </div>
 
-                <!-- กล่องแสดงเมื่อยังไม่มีหุ้นที่ถืออยู่ (เหมือนในภาพ) -->
+                <!-- กล่องแสดงเมื่อยังไม่มีหุ้นที่ถืออยู่ -->
                 <div id="port-empty-state" class="rounded-xl bg-[#090D16] border border-white/5 p-8 text-center space-y-2">
                     <p class="text-slate-300 font-semibold text-sm">ยังไม่มีรายการหุ้นที่บันทึกว่าถืออยู่จริง</p>
                     <p class="text-slate-500 text-xs">
-                        คุณสามารถกดปุ่ม <strong>"💼 บันทึกว่าซื้อถืออยู่จริง"</strong> บนการ์ดหุ้นตัวไหนก็ได้ เพื่อเริ่มติดตามกำไร/ขาดทุนแบบ Real-time
+                        คุณสามารถกดปุ่ม <strong>"💼 บันทึกว่าซื้อถืออยู่จริง"</strong> บนการ์ดหุ้นตัวไหนก็ได้ หรือกดบันทึกจากกล่องจัดสรรเงินด้านล่างเพื่อเริ่มติดตามกำไร/ขาดทุนแบบ Real-time
                     </p>
                 </div>
 
@@ -415,7 +427,128 @@
                 </div>
             </div>
 
-            <!-- แถวที่ 3: 🕌 เครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification) แสดงถาวรเหมือนในภาพ -->
+            <!-- 🎯 แถวที่ 3 (ฟีเจอร์ใหม่ 1): AI คำนวณการจัดสรรเงินลงทุนอิสระ (กำหนดจำนวนตัวได้เอง + เลือกตลาด TH/US/รวม + ใช้ ฿ หรือ $ ซื้อได้ทุกตัว) -->
+            <div class="rounded-2xl border border-indigo-500/35 bg-gradient-to-br from-[#141B2D] via-[#131824] to-[#112224] p-5 shadow-xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                    <div>
+                        <h3 class="text-white font-bold text-base flex items-center gap-2">
+                            🎯 AI คำนวณการจัดสรรเงินลงทุนอิสระ (Custom Multi-Market & Cross-Currency Allocator)
+                        </h3>
+                        <p class="text-slate-400 text-xs mt-0.5">
+                            เลือกได้ทั้งหุ้นไทยอย่างเดียว อเมริกาอย่างเดียว หรือรวมกัน · กำหนดจำนวนหุ้นได้เอง · ใช้เงินบาท (฿) หรือดอลลาร์ ($) คำนวณซื้อหุ้นตัวไหนก็ได้
+                        </p>
+                    </div>
+                    <span id="alloc-fx-badge" class="text-[11px] px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">
+                        เรทคำนวณ $1 = ฿34.5
+                    </span>
+                </div>
+
+                <!-- แถวตั้งค่า 4 กล่อง -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+                    <!-- 1. ขอบเขตตลาด -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1.5">1. ขอบเขตตลาดหุ้นที่ต้องการ</label>
+                        <div class="grid grid-cols-3 gap-1">
+                            <button type="button" onclick="setAllocMarketScope('ALL')" id="ascope-ALL" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border bg-emerald-500/25 border-emerald-400/50 text-emerald-300">🌐 รวม TH+US</button>
+                            <button type="button" onclick="setAllocMarketScope('TH')" id="ascope-TH" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">🇹🇭 ไทยล้วน</button>
+                            <button type="button" onclick="setAllocMarketScope('US')" id="ascope-US" class="py-1.5 px-1 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">🇺🇸 US ล้วน</button>
+                        </div>
+                        <p id="alloc-eligible-count" class="text-[10px] text-slate-500 mt-1.5">หุ้นผ่านฮาลาลในกลุ่มนี้: 0 บริษัท</p>
+                    </div>
+
+                    <!-- 2. งบลงทุน & สกุลเงินตั้งต้น -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="text-[10px] text-slate-400 uppercase font-bold">2. งบลงทุน & สกุลเงินตั้งต้น</label>
+                            <div class="flex gap-1">
+                                <button type="button" onclick="switchAllocBudgetCurrency('THB')" id="acurr-THB" class="px-2 py-0.5 rounded text-[10px] font-extrabold border bg-sky-500/25 border-sky-400 text-sky-300">฿ THB</button>
+                                <button type="button" onclick="switchAllocBudgetCurrency('USD')" id="acurr-USD" class="px-2 py-0.5 rounded text-[10px] font-extrabold border bg-white/5 border-white/10 text-slate-400 hover:text-white">$ USD</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span id="alloc-curr-sym" class="text-sky-400 font-extrabold text-sm">฿</span>
+                            <input type="number" id="alloc-budget-input" min="0" step="any" value="50000" oninput="renderSmartAllocatorUI()" class="w-full bg-transparent text-white font-extrabold text-base outline-none">
+                        </div>
+                        <div class="flex flex-wrap gap-1 mt-1.5">
+                            <button type="button" onclick="applyAllocPresetBudget('TH_ONLY')" id="apreset-th" class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-300">งบไทย</button>
+                            <button type="button" onclick="applyAllocPresetBudget('US_ONLY')" id="apreset-us" class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-300">งบ US</button>
+                            <button type="button" onclick="applyAllocPresetBudget('COMBINED')" class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 font-semibold">รวม 2 พอร์ต</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. จำนวนหุ้นเป้าหมาย (กำหนดเองอิสระ) -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="text-[10px] text-slate-400 uppercase font-bold">3. จำนวนหุ้นเป้าหมาย (กำหนดเอง)</label>
+                            <span id="alloc-max-label" class="text-[10px] text-indigo-300 font-bold">สูงสุด 35 ตัว</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <input type="number" id="alloc-target-count" min="1" max="36" value="2" oninput="onAllocTargetCountInput()" class="w-20 bg-[#131824] border border-indigo-500/40 rounded-lg px-2.5 py-1 text-center text-white font-extrabold text-sm outline-none focus:border-indigo-400">
+                            <span class="text-xs text-slate-300 font-semibold">บริษัท</span>
+                        </div>
+                        <div class="flex items-center gap-1 mt-1.5" id="alloc-quick-count-btns"></div>
+                    </div>
+
+                    <!-- 4. โหมดเลือกหุ้น -->
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3 flex flex-col justify-between">
+                        <div>
+                            <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1.5">4. โหมดเลือกหุ้นเข้าพอร์ต</label>
+                            <div class="flex gap-1.5">
+                                <button type="button" onclick="setAllocSelectionMode('AUTO')" id="amode-AUTO" class="flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-teal-500/25 border-teal-400/50 text-teal-300">🤖 AI คัดตัวท็อป</button>
+                                <button type="button" onclick="setAllocSelectionMode('MANUAL')" id="amode-MANUAL" class="flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">✋ เลือกเอง</button>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-1.5">AI ถ่วงน้ำหนักตามต้นรอบ EMA 50/200 และ RRR</p>
+                    </div>
+                </div>
+
+                <!-- แถบเลือกหุ้นเองแบบไม่จำกัดจำนวน (แสดงเมื่อเลือกโหมด MANUAL) -->
+                <div id="alloc-manual-picker" class="hidden rounded-xl bg-[#090D16] border border-amber-500/30 p-3 space-y-2">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <p class="text-xs text-amber-300 font-bold">✋ คลิกเลือกหุ้นที่คุณต้องการให้ AI คำนวณแบ่งสัดส่วนเงิน (เลือกกี่ตัวก็ได้ ผสมไทย+US ได้เลย):</p>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="selectAllManualAllocTickers()" class="text-[11px] text-emerald-400 hover:underline font-semibold">เลือกทั้งหมด</button>
+                            <button type="button" onclick="clearManualAllocTickers()" class="text-[11px] text-rose-400 hover:underline font-semibold">ล้างที่เลือก</button>
+                        </div>
+                    </div>
+                    <div id="alloc-manual-pills" class="flex flex-wrap gap-1.5"></div>
+                </div>
+
+                <!-- การ์ดผลลัพธ์การจัดสรรเงินลงทุน -->
+                <div id="alloc-results-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5"></div>
+
+                <!-- สรุปแผนจัดสรรเงินจากเพื่อน AI -->
+                <div id="alloc-summary-banner" class="rounded-xl bg-indigo-950/30 border border-indigo-500/30 p-3.5 text-xs text-slate-200 leading-relaxed"></div>
+            </div>
+
+            <!-- 🔄 แถวที่ 4 (ฟีเจอร์ใหม่ 2): AI แนะนำการปรับพอร์ต, คัทลอส, ซื้อถัวเฉลี่ย และสลับตัวเล่นข้ามตลาด -->
+            <div class="rounded-2xl border border-amber-500/35 bg-gradient-to-br from-[#211C15] via-[#131824] to-[#131824] p-5 shadow-xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+                    <div>
+                        <h3 class="text-white font-bold text-base flex items-center gap-2">
+                            🔄 AI แนะนำการปรับพอร์ต & สลับตัวเล่นข้ามตลาด (Portfolio Action & Cross-Market Switching)
+                        </h3>
+                        <p class="text-slate-400 text-xs mt-0.5">
+                            วิเคราะห์หุ้นในพอร์ตว่าควร <strong>คัทลอส</strong>, <strong>ซื้อถัวเฉลี่ยเมื่อย่อใกล้ EMA 50</strong> หรือ <strong>ขายตัวที่เทรนด์เสียเพื่อสลับไปเข้าตัวท็อปต้นรอบ (รองรับสลับข้ามตลาด ไทย ↔ US)</strong>
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button type="button" onclick="toggleAdvisorCrossMarket()" id="advisor-cross-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition-all bg-emerald-500/20 border-emerald-400/50 text-emerald-300">
+                            🌐 สลับข้ามตลาดได้ (TH ↔ US)
+                        </button>
+
+                        <div id="advisor-sim-box" class="flex items-center gap-2 bg-[#090D16] border border-amber-500/40 rounded-xl px-3 py-1.5">
+                            <span class="text-[11px] text-amber-300 font-semibold">🔍 จำลองเช็คหุ้นหากถือ:</span>
+                            <select id="advisor-sim-select" onchange="renderPortfolioActionAdvisorUI()" class="bg-transparent text-xs font-bold text-white outline-none cursor-pointer"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="advisor-cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- แถวที่ 5: 🕌 เครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification) แสดงถาวร -->
             <div id="purification-panel" class="rounded-2xl border border-teal-500/30 bg-gradient-to-br from-[#112224] via-[#131824] to-[#131824] p-5 shadow-xl space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                     <div>
@@ -641,7 +774,7 @@
             </div>
 
             <div class="space-y-3.5">
-                <!-- เลือกหุ้นที่จะบันทึกเข้าพอร์ต (สะดวกเวลากดจากปุ่ม + บันทึกหุ้นเข้าพอร์ตเพิ่ม) -->
+                <!-- เลือกหุ้นที่จะบันทึกเข้าพอร์ต -->
                 <div>
                     <label class="text-xs text-slate-300 font-semibold block mb-1">เลือกหุ้นที่ต้องการบันทึก</label>
                     <select id="hold-symbol-select" onchange="onHoldingSymbolSelectChange()" class="w-full bg-[#090D16] border border-white/15 rounded-xl px-3.5 py-2 text-sm font-bold text-white outline-none focus:border-emerald-500 cursor-pointer"></select>
@@ -727,8 +860,15 @@
         let currentEditingSymbol = null;
         let currentPurifyTaxPct = 15;
 
-        // 💼 โหลดเงินสดในมือ (localStorage)
-        let portfolio = { thCash: 50000, usCash: 1500, baseAllocPct: 15 };
+        // 🎯 สถานะสำหรับ AI Smart Allocator & Switching Advisor
+        let allocMarketScope = 'ALL'; // 'ALL' | 'TH' | 'US'
+        let allocBudgetCurrency = 'THB'; // 'THB' | 'USD'
+        let allocSelectionMode = 'AUTO'; // 'AUTO' | 'MANUAL'
+        let allocManualTickers = [];
+        let advisorAllowCrossMarket = true;
+
+        // 💼 โหลดเงินสดในมือและเรทแลกเปลี่ยน (localStorage)
+        let portfolio = { thCash: 50000, usCash: 1500, baseAllocPct: 15, fxRate: 34.5 };
         try {
             const savedPort = localStorage.getItem('trend_portfolio_cash');
             if (savedPort) portfolio = { ...portfolio, ...JSON.parse(savedPort) };
@@ -758,12 +898,14 @@
             purificationLogs = [];
         }
 
-        // ซิงค์ค่าเริ่มต้นลงช่อง Input เงินสด
+        // ซิงค์ค่าเริ่มต้นลงช่อง Input เงินสดและเรทแลกเปลี่ยน
         document.getElementById('input-th-cash').value = portfolio.thCash;
         document.getElementById('input-us-cash').value = portfolio.usCash;
+        document.getElementById('input-fx-rate').value = portfolio.fxRate || 34.5;
+        document.getElementById('alloc-budget-input').value = portfolio.thCash || 1000;
         updateAllocButtonsUI();
 
-        // สลับหน้าหลักระหว่าง Trend Dashboard กับ Portfolio & Purify (เหมือนโปรเจกต์ 1)
+        // สลับหน้าหลักระหว่าง Trend Dashboard กับ Portfolio & Purify
         function switchMainView(viewKey, preselectPurifySymbol = null) {
             currentMainView = viewKey;
             const dashSec = document.getElementById('view-dashboard-section');
@@ -779,8 +921,8 @@
                 portSec.classList.remove('hidden');
                 tabPort.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
                 tabDash.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 border border-transparent';
-                mainTitle.innerText = 'My Active Positions & Halal Dividend Purification';
-                mainSub.innerHTML = 'สรุปกำไร/ขาดทุนหุ้นที่ถืออยู่ในพอร์ตจริง และเครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (AAOIFI)';
+                mainTitle.innerText = 'My Active Positions, Cross-Currency Allocator & Switching Advisor';
+                mainSub.innerHTML = 'AI คำนวณจัดสรรเงินลงทุนอิสระ (เลือกตลาด TH/US/รวม · ใช้เงิน ฿ หรือ $ ซื้อได้ทุกตัว) แนะนำการปรับพอร์ต/สลับตัวเล่น และชำระปันผลฮาลาล';
                 cashbarBtn.innerText = '← กลับหน้าหลัก Trend Dashboard';
                 cashbarBtn.onclick = () => switchMainView('dashboard');
 
@@ -799,13 +941,12 @@
                 tabDash.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
                 tabPort.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 border border-transparent';
                 mainTitle.innerText = 'Trend Following PRO';
-                mainSub.innerHTML = '<i class="fa-solid fa-robot text-indigo-400 mr-1"></i> เพื่อนคู่หู AI สแกนต้นรอบ EMA 50/200 ฟันธงจังหวะซื้อ ติดตามกำไรพอร์ตจริง และคำนวณชำระปันผลฮาลาล';
-                cashbarBtn.innerText = '💼 เปิดหน้า Portfolio & ชำระปันผล →';
+                mainSub.innerHTML = '<i class="fa-solid fa-robot text-indigo-400 mr-1"></i> เพื่อนคู่หู AI สแกนต้นรอบ EMA 50/200 จัดสรรเงินข้ามตลาด (฿/$) แนะนำสลับตัวเล่น และชำระปันผลฮาลาล';
+                cashbarBtn.innerText = '🎯 AI จัดสรรเงินข้ามตลาด & ปรับพอร์ต →';
                 cashbarBtn.onclick = () => switchMainView('myportfolio');
             }
         }
 
-        // รองรับฟังก์ชัน togglePurifyPanel เดิมจาก index (7).html ให้สลับไปหน้า Portfolio & Purify ทันที
         function togglePurifyPanel(preselectSymbol = null) {
             switchMainView('myportfolio', preselectSymbol);
         }
@@ -853,6 +994,12 @@
             recalculateAllStocks();
         });
 
+        document.getElementById('input-fx-rate').addEventListener('input', (e) => {
+            portfolio.fxRate = Math.max(1, Number(e.target.value) || 34.5);
+            savePortfolio();
+            recalculateAllStocks();
+        });
+
         function saveFavorites() {
             try {
                 localStorage.setItem('trend_fav_tickers', JSON.stringify(favorites));
@@ -868,6 +1015,37 @@
             }
             saveFavorites();
             updateDisplay();
+        }
+
+        // 💱 แปลงจำนวนเงินระหว่าง THB (฿) และ USD ($)
+        function convertCurrencyAmount(amount, fromCurr, toCurr, fxRate = 34.5) {
+            const cleanAmt = Number(amount) || 0;
+            const rate = Math.max(1, Number(fxRate) || 34.5);
+            if (fromCurr === toCurr) return cleanAmt;
+            if ((fromCurr === '฿' || fromCurr === 'THB') && (toCurr === '$' || toCurr === 'USD')) {
+                return cleanAmt / rate;
+            }
+            if ((fromCurr === '$' || fromCurr === 'USD') && (toCurr === '฿' || toCurr === 'THB')) {
+                return cleanAmt * rate;
+            }
+            return cleanAmt;
+        }
+
+        // 🧠 ให้คะแนนความน่าลงทุนของหุ้นแต่ละตัวตามกลยุทธ์รันเทรนด์ (EMA 50/200 + RRR + จังหวะซื้อ)
+        function scoreTrendStockForAllocation(s) {
+            if (!s.isHalal || s.price <= 0) return 0;
+            let score = s.rrr * 25;
+            if (s.statusKey === 'EARLY_UP') score += 50;
+            else if (s.statusKey === 'UP') score += 30;
+            else if (s.statusKey === 'WARNING') score -= 35;
+            else score -= 60;
+
+            if (s.timingState === 'BUY_NOW') score += 40;
+            else if (s.timingState === 'WAIT_DIP') score += 15;
+            else score -= 35;
+
+            score += Math.max(0, 50 - Math.round(s.rangePos * 0.4));
+            return Math.max(5, Math.round(score));
         }
 
         function updateLiveMarketBadge() {
@@ -932,6 +1110,7 @@
                 rawApiStocks = result.data || [];
                 recalculateAllStocks();
                 populatePurifySelect();
+                populateAdvisorSimSelect();
                 
                 pollingTimer = setTimeout(() => fetchStocks(), 60000);
 
@@ -945,9 +1124,12 @@
             }
         }
 
-        // 🎯 คำนวณสถานะเทรนด์ + จุดตั้งซื้อ + RRR + ขนาดไม้ + กำไร/ขาดทุนหุ้นที่ถือจริง + คำแนะนำเพื่อนคู่หู AI
+        // 🎯 คำนวณสถานะเทรนด์ + จุดตั้งซื้อ + RRR + ขนาดไม้ (รองรับแปลงค่าเงิน ฿/$) + กำไร/ขาดทุนหุ้นที่ถือจริง + คำแนะนำเพื่อนคู่หู AI
         function recalculateAllStocks() {
             if (!rawApiStocks || rawApiStocks.length === 0) return;
+            const fxRate = Math.max(1, Number(portfolio.fxRate || 34.5));
+            const rawThCash = Number(portfolio.thCash || 0);
+            const rawUsCash = Number(portfolio.usCash || 0);
 
             processedStocksData = rawApiStocks.map(stock => {
                 const isTH = stock.market === 'TH' || (stock.symbol && stock.symbol.toUpperCase().endsWith('.BK'));
@@ -1071,8 +1253,10 @@
                     timingClass = 'bg-yellow-500/20 text-yellow-300 border-yellow-400/50';
                 }
 
-                // 5. คำนวณปริมาณเงินที่ควรลง (Position Sizing) จากเงินสดในมือ
-                const availableCash = isTH ? Number(portfolio.thCash || 0) : Number(portfolio.usCash || 0);
+                // 5. คำนวณปริมาณเงินที่ควรลง (รองรับการใช้เงินข้ามสกุล บาท/ดอลลาร์)
+                const availableCash = isTH
+                    ? (rawThCash > 0 ? rawThCash : Math.round(rawUsCash * fxRate))
+                    : (rawUsCash > 0 ? rawUsCash : Number((rawThCash / fxRate).toFixed(2)));
                 const basePct = Number(portfolio.baseAllocPct || 15);
                 let allocPct = 0;
 
@@ -1203,6 +1387,563 @@
             renderPortfolioAndPurifyView();
         }
 
+        // =======================================================================
+        // 🎯 ฟังก์ชันควบคุม AI Smart Multi-Market & Cross-Currency Allocator
+        // =======================================================================
+
+        function setAllocMarketScope(scope) {
+            allocMarketScope = scope;
+            ['ALL', 'TH', 'US'].forEach(id => {
+                const btn = document.getElementById('ascope-' + id);
+                if (id === scope) {
+                    btn.className = 'py-1.5 px-1 rounded-lg text-[11px] font-bold border bg-emerald-500/25 border-emerald-400/50 text-emerald-300';
+                } else {
+                    btn.className = 'py-1.5 px-1 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                }
+            });
+            renderSmartAllocatorUI();
+        }
+
+        function switchAllocBudgetCurrency(nextCurr) {
+            if (nextCurr === allocBudgetCurrency) return;
+            const fxRate = Math.max(1, Number(portfolio.fxRate || 34.5));
+            const inputEl = document.getElementById('alloc-budget-input');
+            const currVal = Math.max(0, Number(inputEl.value) || 0);
+            const converted = convertCurrencyAmount(
+                currVal,
+                allocBudgetCurrency === 'THB' ? '฿' : '$',
+                nextCurr === 'THB' ? '฿' : '$',
+                fxRate
+            );
+            allocBudgetCurrency = nextCurr;
+            inputEl.value = nextCurr === 'THB' ? Math.round(converted) : Number(converted.toFixed(2));
+            document.getElementById('alloc-curr-sym').innerText = nextCurr === 'THB' ? '฿' : '$';
+
+            ['THB', 'USD'].forEach(c => {
+                const btn = document.getElementById('acurr-' + c);
+                if (c === nextCurr) {
+                    btn.className = 'px-2 py-0.5 rounded text-[10px] font-extrabold border bg-sky-500/25 border-sky-400 text-sky-300';
+                } else {
+                    btn.className = 'px-2 py-0.5 rounded text-[10px] font-extrabold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                }
+            });
+            renderSmartAllocatorUI();
+        }
+
+        function applyAllocPresetBudget(mode) {
+            const fxRate = Math.max(1, Number(portfolio.fxRate || 34.5));
+            const th = Number(portfolio.thCash || 0);
+            const us = Number(portfolio.usCash || 0);
+            const inputEl = document.getElementById('alloc-budget-input');
+
+            if (mode === 'TH_ONLY') {
+                allocBudgetCurrency = 'THB';
+                inputEl.value = th;
+            } else if (mode === 'US_ONLY') {
+                allocBudgetCurrency = 'USD';
+                inputEl.value = us;
+            } else if (mode === 'COMBINED') {
+                if (allocBudgetCurrency === 'THB') {
+                    inputEl.value = Math.round(th + us * fxRate);
+                } else {
+                    inputEl.value = Number((us + th / fxRate).toFixed(2));
+                }
+            }
+            document.getElementById('alloc-curr-sym').innerText = allocBudgetCurrency === 'THB' ? '฿' : '$';
+            ['THB', 'USD'].forEach(c => {
+                const btn = document.getElementById('acurr-' + c);
+                btn.className = c === allocBudgetCurrency
+                    ? 'px-2 py-0.5 rounded text-[10px] font-extrabold border bg-sky-500/25 border-sky-400 text-sky-300'
+                    : 'px-2 py-0.5 rounded text-[10px] font-extrabold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
+            });
+            renderSmartAllocatorUI();
+        }
+
+        function onAllocTargetCountInput() {
+            allocSelectionMode = 'AUTO';
+            updateAllocModeButtons();
+            renderSmartAllocatorUI();
+        }
+
+        function setQuickAllocCount(cnt) {
+            allocSelectionMode = 'AUTO';
+            document.getElementById('alloc-target-count').value = cnt;
+            updateAllocModeButtons();
+            renderSmartAllocatorUI();
+        }
+
+        function setAllocSelectionMode(mode) {
+            allocSelectionMode = mode;
+            updateAllocModeButtons();
+            renderSmartAllocatorUI();
+        }
+
+        function updateAllocModeButtons() {
+            const btnAuto = document.getElementById('amode-AUTO');
+            const btnMan = document.getElementById('amode-MANUAL');
+            const picker = document.getElementById('alloc-manual-picker');
+
+            if (allocSelectionMode === 'AUTO') {
+                btnAuto.className = 'flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-teal-500/25 border-teal-400/50 text-teal-300';
+                btnMan.className = 'flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                picker.classList.add('hidden');
+            } else {
+                btnMan.className = 'flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-amber-500/25 border-amber-400/50 text-amber-300';
+                btnAuto.className = 'flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                picker.classList.remove('hidden');
+            }
+        }
+
+        function toggleManualAllocTicker(symbol) {
+            if (allocManualTickers.includes(symbol)) {
+                allocManualTickers = allocManualTickers.filter(t => t !== symbol);
+            } else {
+                allocManualTickers.push(symbol);
+            }
+            renderSmartAllocatorUI();
+        }
+
+        function selectAllManualAllocTickers() {
+            const eligible = getEligibleAllocatorStocks();
+            allocManualTickers = eligible.map(s => s.symbol);
+            renderSmartAllocatorUI();
+        }
+
+        function clearManualAllocTickers() {
+            allocManualTickers = [];
+            renderSmartAllocatorUI();
+        }
+
+        function getEligibleAllocatorStocks() {
+            return processedStocksData
+                .filter(s => {
+                    if (!s.isHalal || s.price <= 0) return false;
+                    if (allocMarketScope === 'TH' && s.market !== 'TH') return false;
+                    if (allocMarketScope === 'US' && s.market !== 'US') return false;
+                    return true;
+                })
+                .sort((a, b) => scoreTrendStockForAllocation(b) - scoreTrendStockForAllocation(a));
+        }
+
+        function quickSaveAllocatedHolding(symbol, shares, price) {
+            activeHoldings[symbol] = {
+                shares: Number(shares) || 1,
+                avgCost: Number(price) || 0
+            };
+            saveHoldingsToStorage();
+            recalculateAllStocks();
+        }
+
+        function renderSmartAllocatorUI() {
+            if (!processedStocksData || processedStocksData.length === 0) return;
+            const fxRate = Math.max(1, Number(portfolio.fxRate || 34.5));
+            document.getElementById('alloc-fx-badge').innerText = `เรทคำนวณ $1 = ฿${fxRate}`;
+            document.getElementById('apreset-th').innerText = `งบไทย (฿${portfolio.thCash})`;
+            document.getElementById('apreset-us').innerText = `งบ US ($${portfolio.usCash})`;
+
+            const eligible = getEligibleAllocatorStocks();
+            const maxCount = eligible.length || 1;
+            document.getElementById('alloc-eligible-count').innerHTML = `หุ้นผ่านฮาลาลในกลุ่มนี้: <strong class="text-slate-300">${eligible.length} บริษัท</strong>`;
+            document.getElementById('alloc-max-label').innerText = `สูงสุด ${maxCount} ตัว`;
+
+            const countInput = document.getElementById('alloc-target-count');
+            countInput.max = maxCount;
+            const cleanTargetCount = Math.min(maxCount, Math.max(1, parseInt(countInput.value, 10) || 1));
+
+            // ปุ่มกดด่วนเลือกจำนวนตัว
+            const quickCounts = [1, 2, 3, 5, maxCount];
+            const quickBox = document.getElementById('alloc-quick-count-btns');
+            quickBox.innerHTML = quickCounts.map((cnt, idx) => {
+                const isAct = allocSelectionMode === 'AUTO' && cleanTargetCount === cnt;
+                const cls = isAct
+                    ? 'bg-indigo-500/30 border-indigo-400 text-indigo-200'
+                    : 'bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                const label = (cnt === maxCount && idx === 4) ? `ทั้งหมด (${cnt})` : `${cnt} ตัว`;
+                return `<button type="button" onclick="setQuickAllocCount(${cnt})" class="flex-1 py-0.5 rounded text-[10px] font-bold border transition-all ${cls}">${label}</button>`;
+            }).join('');
+
+            document.getElementById('amode-AUTO').innerText = `🤖 AI คัดตัวท็อป (${cleanTargetCount} ตัว)`;
+            document.getElementById('amode-MANUAL').innerText = `✋ เลือกเอง (${allocManualTickers.length || 'ไม่จำกัด'})`;
+
+            // วาดปุ่มเลือกหุ้นเองในโหมด MANUAL
+            if (allocSelectionMode === 'MANUAL') {
+                const pillsBox = document.getElementById('alloc-manual-pills');
+                pillsBox.innerHTML = eligible.map(s => {
+                    const active = allocManualTickers.includes(s.symbol);
+                    const cls = active
+                        ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-sm'
+                        : 'bg-white/5 border-white/10 text-slate-400 hover:text-white';
+                    const flag = s.market === 'TH' ? '🇹🇭' : '🇺🇸';
+                    return `<button type="button" onclick="toggleManualAllocTicker('${s.symbol}')" class="px-2.5 py-1 rounded-lg text-xs font-bold border transition-all ${cls}">${flag} ${s.symbol.replace('.BK', '')} (RRR 1:${s.rrr})</button>`;
+                }).join('');
+            }
+
+            const chosen = (allocSelectionMode === 'MANUAL' && allocManualTickers.length > 0)
+                ? eligible.filter(s => allocManualTickers.includes(s.symbol))
+                : eligible.slice(0, cleanTargetCount);
+
+            const budgetCurrSym = allocBudgetCurrency === 'THB' ? '฿' : '$';
+            const budgetNum = Math.max(0, Number(document.getElementById('alloc-budget-input').value) || 0);
+            const grid = document.getElementById('alloc-results-grid');
+            const summaryBanner = document.getElementById('alloc-summary-banner');
+
+            if (chosen.length === 0 || budgetNum <= 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-6 text-slate-500 text-xs">กรุณาระบุงบลงทุนมากกว่า 0 หรือเลือกหุ้นที่ต้องการจัดสรร</div>`;
+                summaryBanner.innerHTML = '';
+                return;
+            }
+
+            const scores = chosen.map(s => scoreTrendStockForAllocation(s));
+            const totalScore = scores.reduce((a, b) => a + b, 0) || 1;
+            let runningPct = 0;
+            let totalEstProfit = 0;
+            let totalEstRisk = 0;
+
+            const planItems = chosen.map((s, idx) => {
+                const weightPct = (idx === chosen.length - 1)
+                    ? Math.max(1, 100 - runningPct)
+                    : Math.max(1, Math.round((scores[idx] / totalScore) * 100));
+                runningPct += weightPct;
+
+                const moneyInBudgetCurr = Number(((budgetNum * weightPct) / 100).toFixed(2));
+                const stockCurr = s.currency || '$';
+                const moneyInStockCurr = Number(convertCurrencyAmount(moneyInBudgetCurr, budgetCurrSym, stockCurr, fxRate).toFixed(2));
+                const isCross = budgetCurrSym !== stockCurr;
+
+                const entryPrice = s.timingState === 'BUY_NOW' ? s.price : s.bestBuyPrice;
+                const rawShares = entryPrice > 0 ? moneyInStockCurr / entryPrice : 0;
+                const shares = rawShares >= 1 ? Math.floor(rawShares) : Number(rawShares.toFixed(4));
+
+                const estProfit = Number((moneyInBudgetCurr * (s.upsidePct / 100)).toFixed(2));
+                const estRisk = Number((moneyInBudgetCurr * (s.downsidePct / 100)).toFixed(2));
+                totalEstProfit += estProfit;
+                totalEstRisk += estRisk;
+
+                return { s, stockCurr, weightPct, moneyInBudgetCurr, moneyInStockCurr, isCross, entryPrice, shares, estProfit, estRisk };
+            });
+
+            grid.innerHTML = planItems.map((item, idx) => {
+                const s = item.s;
+                const mktFlag = s.market === 'TH' ? '🇹🇭 TH' : '🇺🇸 US';
+                const trendBadge = getTrendBadgeHtml(s.statusKey);
+                return `
+                    <div class="rounded-xl bg-[#090D16] border border-indigo-500/30 p-4 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                        อันดับ #${idx + 1} · สัดส่วน ${item.weightPct}%
+                                    </span>
+                                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                                        <h4 onclick="openStockModal('${s.symbol}')" class="text-base font-extrabold text-white hover:text-emerald-400 cursor-pointer">${s.symbol}</h4>
+                                        <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">${mktFlag}</span>
+                                        <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold border ${s.worthClass}">${s.worthLabel}</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 truncate mt-0.5">${s.name}</p>
+                                </div>
+                                ${trendBadge}
+                            </div>
+
+                            <div class="mt-3 pt-2.5 border-t border-white/5 space-y-1.5 text-xs">
+                                <div class="flex justify-between items-baseline">
+                                    <span class="text-slate-400">งบที่จัดสรรให้:</span>
+                                    <div class="text-right">
+                                        <span class="font-extrabold text-emerald-300 text-sm">${budgetCurrSym}${item.moneyInBudgetCurr.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                        ${item.isCross ? `<span class="block text-[11px] text-sky-300 font-semibold">≈ ${item.stockCurr}${item.moneyInStockCurr.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (แปลงค่าเงินอัตโนมัติ)</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">จำนวนหุ้นที่ซื้อได้จริง:</span>
+                                    <span class="font-extrabold text-white">${item.shares} หุ้น</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">ราคาตั้งซื้อ (${item.stockCurr}):</span>
+                                    <span class="font-bold text-sky-300">${item.stockCurr}${item.entryPrice.toFixed(2)} (${s.timingState === 'BUY_NOW' ? 'เคาะซื้อได้เลย' : 'ตั้ง Limit รอย่อ'})</span>
+                                </div>
+                                <div class="flex justify-between text-[11px] pt-1 border-t border-white/5">
+                                    <span class="text-emerald-400">เป้ากำไร: +${budgetCurrSym}${item.estProfit.toFixed(2)}</span>
+                                    <span class="text-rose-400">ความเสี่ยง: -${budgetCurrSym}${item.estRisk.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="quickSaveAllocatedHolding('${s.symbol}', ${item.shares}, ${item.entryPrice})" class="w-full py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs transition-all">
+                            💼 บันทึกซื้อ ${s.symbol.replace('.BK', '')} (${item.shares} หุ้น @ ${item.stockCurr}${item.entryPrice})
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            const topOne = planItems[0];
+            const scopeDesc = allocMarketScope === 'ALL' ? 'ผสมทั้งตลาดหุ้นไทยและอเมริกา' : allocMarketScope === 'TH' ? 'ตลาดหุ้นไทยล้วน' : 'ตลาดหุ้นอเมริกาล้วน';
+            summaryBanner.innerHTML = `
+                <strong class="text-indigo-300 mr-1.5">🤖 เพื่อน AI สรุปแผนจัดสรรเงินรันเทรนด์:</strong>
+                จากงบทั้งหมด <strong class="text-white">${budgetCurrSym}${budgetNum.toLocaleString()}</strong> กระจายลงหุ้นฮาลาล <strong class="text-white">${planItems.length} บริษัท</strong> (${scopeDesc})
+                โดยให้น้ำหนักสูงสุดที่ <strong class="text-emerald-300">${topOne.s.symbol} (${topOne.weightPct}% = ${budgetCurrSym}${topOne.moneyInBudgetCurr.toLocaleString()})</strong>
+                เนื่องจากมี RRR 1:${topOne.s.rrr} · พอร์ตชุดนี้มีกำไรคาดหวังรวม <strong class="text-emerald-400">+${budgetCurrSym}${totalEstProfit.toFixed(2)}</strong>
+                เทียบความเสี่ยงรวม <strong class="text-rose-400">-${budgetCurrSym}${totalEstRisk.toFixed(2)}</strong>
+            `;
+        }
+
+        // =======================================================================
+        // 🔄 ฟังก์ชันควบคุม AI Portfolio Action & Cross-Market Switching Advisor
+        // =======================================================================
+
+        function populateAdvisorSimSelect() {
+            const sel = document.getElementById('advisor-sim-select');
+            if (!sel || processedStocksData.length === 0) return;
+            const currentVal = sel.value;
+            sel.innerHTML = processedStocksData.map(s => `<option value="${s.symbol}" class="bg-[#131824]">${s.symbol} (${s.name})</option>`).join('');
+            if (currentVal && processedStocksData.some(s => s.symbol === currentVal)) {
+                sel.value = currentVal;
+            }
+        }
+
+        function toggleAdvisorCrossMarket() {
+            advisorAllowCrossMarket = !advisorAllowCrossMarket;
+            const btn = document.getElementById('advisor-cross-btn');
+            if (advisorAllowCrossMarket) {
+                btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold border transition-all bg-emerald-500/20 border-emerald-400/50 text-emerald-300';
+                btn.innerText = '🌐 สลับข้ามตลาดได้ (TH ↔ US)';
+            } else {
+                btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold border transition-all bg-white/5 border-white/10 text-slate-300';
+                btn.innerText = '🔒 สลับเฉพาะตลาดเดียวกัน';
+            }
+            renderPortfolioActionAdvisorUI();
+        }
+
+        function executeSwitchPosition(oldSymbol, newSymbol, newShares, newPrice) {
+            if (activeHoldings[oldSymbol]) {
+                delete activeHoldings[oldSymbol];
+            }
+            activeHoldings[newSymbol] = {
+                shares: Number(newShares) || 1,
+                avgCost: Number(newPrice) || 0
+            };
+            saveHoldingsToStorage();
+            recalculateAllStocks();
+        }
+
+        function executeAvgDownPosition(symbol, totalShares, newAvgCost) {
+            activeHoldings[symbol] = {
+                shares: Number(totalShares) || 1,
+                avgCost: Number(newAvgCost) || 0
+            };
+            saveHoldingsToStorage();
+            recalculateAllStocks();
+        }
+
+        function buildTrendPositionActionPlan(heldStock) {
+            const fxRate = Math.max(1, Number(portfolio.fxRate || 34.5));
+            const curr = heldStock.currency || '$';
+            const candidatePool = processedStocksData
+                .filter(s =>
+                    (advisorAllowCrossMarket ? true : s.market === heldStock.market) &&
+                    s.isHalal &&
+                    s.symbol !== heldStock.symbol &&
+                    s.price > 0 &&
+                    s.timingState !== 'AVOID'
+                )
+                .sort((a, b) => scoreTrendStockForAllocation(b) - scoreTrendStockForAllocation(a));
+
+            const bestAlt = candidatePool[0] || null;
+            const altCurr = bestAlt ? (bestAlt.currency || '$') : curr;
+
+            const heldShares = heldStock.isHeld ? heldStock.heldShares : Math.max(1, heldStock.recommendedShares || 1);
+            const avgCost = heldStock.isHeld ? heldStock.avgCost : heldStock.price;
+            const currentVal = Number((heldShares * heldStock.price).toFixed(2));
+            const investedVal = Number((heldShares * avgCost).toFixed(2));
+            const pnlAmt = Number((currentVal - investedVal).toFixed(2));
+            const pnlPct = avgCost > 0 ? Number((((heldStock.price - avgCost) / avgCost) * 100).toFixed(2)) : 0;
+
+            // คำนวณกรณีซื้อถัวเฉลี่ยเพิ่ม (Average Down)
+            const addBudget = Math.max(
+                heldStock.market === 'TH' ? 500 : 10,
+                heldStock.allocAmount > 0 ? heldStock.allocAmount : Math.round((heldStock.availableCash || 1000) * 0.15)
+            );
+            const rawAddShares = heldStock.price > 0 ? addBudget / heldStock.price : 0;
+            const addShares = rawAddShares >= 1 ? Math.floor(rawAddShares) : Number(rawAddShares.toFixed(4));
+            const totalSharesAfterAvg = Number((heldShares + addShares).toFixed(4));
+            const newAvgCost = totalSharesAfterAvg > 0
+                ? Number(((investedVal + addShares * heldStock.price) / totalSharesAfterAvg).toFixed(2))
+                : avgCost;
+
+            // คำนวณกรณีขายสลับตัว (แปลงค่าเงินอัตโนมัติหากสลับข้ามตลาด TH ↔ US)
+            const switchSourceMoney = currentVal > 0 ? currentVal : addBudget;
+            const switchTargetMoney = Number(convertCurrencyAmount(switchSourceMoney, curr, altCurr, fxRate).toFixed(2));
+            const rawSwitchShares = (bestAlt && bestAlt.price > 0) ? switchTargetMoney / bestAlt.price : 0;
+            const switchShares = rawSwitchShares >= 1 ? Math.floor(rawSwitchShares) : Number(rawSwitchShares.toFixed(4));
+
+            const crossNote = curr !== altCurr
+                ? ` (แปลงค่าเงินเป็น ${altCurr}${switchTargetMoney.toLocaleString()} ที่เรท ${fxRate} ฿/$)`
+                : '';
+
+            let actionType = 'HOLD';
+            let actionBadge = '🛡️ ถือรันเทรนด์ต่อ (Hold)';
+            let badgeTone = 'bg-teal-500/20 text-teal-300 border-teal-500/40';
+            let headline = '';
+            let detail = '';
+
+            if (!heldStock.isHalal) {
+                actionType = 'SWITCH';
+                actionBadge = '🔄 แนะนำขายสลับตัว (ไม่ผ่านฮาลาล)';
+                badgeTone = 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+                headline = `สัดส่วนหนี้ของ ${heldStock.symbol} อยู่ที่ ${heldStock.debtRatio.toFixed(1)}% (เกินเกณฑ์ฮาลาล 33%)`;
+                detail = bestAlt
+                    ? `แนะนำขาย ${heldStock.symbol} (ได้เงิน ${curr}${switchSourceMoney.toLocaleString()})${crossNote} แล้วนำเงินไปสลับซื้อ ${bestAlt.symbol} ที่ผ่านเกณฑ์ฮาลาลและมี RRR 1:${bestAlt.rrr} (${bestAlt.timingBadge}) ซื้อได้ประมาณ ${switchShares} หุ้น`
+                    : `แนะนำขายออกเพื่อถือเงินสดรอจังหวะหุ้นฮาลาลตัวอื่น`;
+            } else if (heldStock.statusKey === 'DOWN' || heldStock.statusKey === 'WARNING' || heldStock.price <= heldStock.stopLoss || pnlPct <= -6) {
+                actionType = (bestAlt && bestAlt.timingState === 'BUY_NOW') ? 'SWITCH' : 'CUT_LOSS';
+                actionBadge = actionType === 'SWITCH'
+                    ? `✂️🔄 คัทลอส & สลับไปเข้า ${bestAlt.symbol}`
+                    : '✂️ แนะนำคัทลอสเมื่อหลุดเทรนด์ (Cut Loss)';
+                badgeTone = 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+                headline = `โครงสร้างเทรนด์เสีย (${heldStock.statusKey === 'WARNING' ? 'เตือนภัย Death Cross' : 'ขาลง/หลุด Stop-Loss'}) หรือติดลบ ${pnlPct}%`;
+                detail = bestAlt
+                    ? `ตามวินัย Trend Following ไม่ควรอมหุ้นขาลง! แนะนำคัทลอส ${heldStock.symbol} ดึงเงินสด ${curr}${switchSourceMoney.toLocaleString()}${crossNote} ออกมาสลับเข้าซื้อหุ้นขาขึ้นอย่าง ${bestAlt.symbol} (${bestAlt.timingBadge} · RRR 1:${bestAlt.rrr}) ได้ประมาณ ${switchShares} หุ้น เพื่อปั้นพอร์ตคืนไวกว่า!`
+                    : `แนะนำคัทลอสตามวินัยเพื่อรักษาเงินต้น ${curr}${switchSourceMoney.toLocaleString()} ไว้รอต้นรอบใหม่`;
+            } else if (heldStock.price >= heldStock.targetPrice || pnlPct >= 12) {
+                actionType = 'TAKE_PROFIT';
+                actionBadge = '💰 แบ่งขายล็อกกำไร / สลับตัวต้นรอบ';
+                badgeTone = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                headline = `กำไรพุ่งชนเป้าหมายรันเทรนด์แล้ว (${pnlPct >= 0 ? '+' : ''}${pnlPct}% · กำไร +${curr}${pnlAmt.toLocaleString()})`;
+                detail = bestAlt
+                    ? `แนะนำแบ่งขายล็อกกำไร ${heldStock.symbol} เข้ากระเป๋า แล้วโยกเงินทุน ${curr}${switchSourceMoney.toLocaleString()}${crossNote} ไปเข้าหุ้นต้นรอบตัวใหม่อย่าง ${bestAlt.symbol} (RRR 1:${bestAlt.rrr} · ${bestAlt.timingBadge}) ซื้อได้ประมาณ ${switchShares} หุ้น`
+                    : `แนะนำแบ่งขายทำกำไรบางส่วน และยกระดับ Trailing Stop ขึ้นมาที่เส้น EMA 50 (${curr}${heldStock.ema50.toFixed(2)})`;
+            } else if (
+                bestAlt &&
+                bestAlt.statusKey === 'EARLY_UP' &&
+                bestAlt.timingState === 'BUY_NOW' &&
+                heldStock.rrr < 1.3 &&
+                bestAlt.rrr >= heldStock.rrr * 1.6
+            ) {
+                actionType = 'SWITCH';
+                actionBadge = `🔄 แนะนำสลับตัวไปเข้าต้นรอบ ${bestAlt.symbol}`;
+                badgeTone = 'bg-amber-500/20 text-yellow-300 border-yellow-400/50';
+                headline = `${heldStock.symbol} เริ่มตึงตัว (RRR 1:${heldStock.rrr}) ขณะที่มีหุ้นเพิ่งตัด Golden Cross ต้นรอบ`;
+                detail = `หากต้องการเร่งการเติบโตของพอร์ต แนะนำขาย ${heldStock.symbol} (ได้เงิน ${curr}${switchSourceMoney.toLocaleString()})${crossNote} เพื่อสลับไปเข้าต้นรอบ Golden Cross ของ ${bestAlt.symbol} (${bestAlt.timingBadge} · RRR 1:${bestAlt.rrr}) ซื้อได้ ${switchShares} หุ้น`;
+            } else if (
+                pnlPct < -1.0 &&
+                (heldStock.statusKey === 'EARLY_UP' || heldStock.statusKey === 'UP') &&
+                heldStock.price > heldStock.stopLoss &&
+                heldStock.rrr >= 1.5
+            ) {
+                actionType = 'AVG_DOWN';
+                actionBadge = '➕ แนะนำซื้อถัวเพิ่มตามเทรนด์ (Pullback Buy)';
+                badgeTone = 'bg-sky-500/20 text-sky-300 border-sky-400/50';
+                headline = `เทรนด์ใหญ่ยังเป็นขาขึ้น แต่ราคาย่อตัวลงมาใกล้แนวรับ EMA 50 (${curr}${heldStock.ema50.toFixed(2)})`;
+                detail = `จังหวะดีในการซื้อถัวตามเทรนด์! หากแบ่งงบ ${curr}${addBudget.toLocaleString()} ซื้อเพิ่มอีก ${addShares} หุ้น ที่ราคา ${curr}${heldStock.price.toFixed(2)} จะทำให้ต้นทุนเฉลี่ยลดลงจาก ${curr}${avgCost.toFixed(2)} เหลือเพียง ${curr}${newAvgCost.toFixed(2)} ต่อหุ้น (รวมถือ ${totalSharesAfterAvg} หุ้น)`;
+            } else {
+                actionType = 'HOLD';
+                actionBadge = '🛡️ ถือรันเทรนด์ต่อ (Let Profit Run)';
+                badgeTone = 'bg-teal-500/20 text-teal-300 border-teal-500/40';
+                headline = `โครงสร้างขาขึ้นยังแข็งแกร่ง (EMA 50 ยืนเหนือ EMA 200 · RRR 1:${heldStock.rrr})`;
+                detail = `ยังไม่ต้องรีบขายหมู แนะนำถือรันเทรนด์ต่อไปตราบใดที่ราคายังไม่หลุดเส้น Stop-Loss (${curr}${heldStock.stopLoss.toFixed(2)}) เพื่อรอขายที่เป้าหมาย ${curr}${heldStock.targetPrice.toFixed(2)} (+${heldStock.upsidePct}%)`;
+            }
+
+            return {
+                stock: heldStock,
+                curr,
+                altCurr,
+                heldShares,
+                avgCost,
+                actionType,
+                actionBadge,
+                badgeTone,
+                headline,
+                detail,
+                bestAlt,
+                switchShares,
+                addShares,
+                totalSharesAfterAvg,
+                newAvgCost
+            };
+        }
+
+        function renderPortfolioActionAdvisorUI() {
+            if (!processedStocksData || processedStocksData.length === 0) return;
+            const heldList = processedStocksData.filter(s => s.isHeld);
+            const simBox = document.getElementById('advisor-sim-box');
+            const grid = document.getElementById('advisor-cards-grid');
+
+            let targetList = [];
+            if (heldList.length > 0) {
+                simBox.classList.add('hidden');
+                targetList = heldList;
+            } else {
+                simBox.classList.remove('hidden');
+                const simSym = document.getElementById('advisor-sim-select').value || processedStocksData[0].symbol;
+                const simStock = processedStocksData.find(s => s.symbol === simSym) || processedStocksData[0];
+                if (simStock) targetList = [simStock];
+            }
+
+            const plans = targetList.map(s => buildTrendPositionActionPlan(s));
+            grid.innerHTML = plans.map(plan => {
+                const s = plan.stock;
+                const alt = plan.bestAlt;
+                const mktFlag = s.market === 'TH' ? '🇹🇭 TH' : '🇺🇸 US';
+                const holdDesc = s.isHeld
+                    ? `ถือจริง ${plan.heldShares} หุ้น @ ทุน ${plan.curr}${plan.avgCost.toFixed(2)}`
+                    : `โหมดจำลอง @ ${plan.curr}${s.price.toFixed(2)}`;
+
+                const altCompareHtml = alt ? `
+                    <div class="grid grid-cols-2 gap-2.5 pt-1 text-xs">
+                        <div class="rounded-lg bg-white/[0.02] border border-white/10 p-2.5">
+                            <p class="text-[10px] text-slate-400 uppercase">ตัวที่ถืออยู่ (${s.symbol})</p>
+                            <p class="font-bold text-white mt-0.5">${plan.curr}${s.price.toFixed(2)} · RRR 1:${s.rrr}</p>
+                            <p class="text-[11px] text-slate-400">EMA Gap ${s.gapPercent >= 0 ? '+' : ''}${s.gapPercent.toFixed(1)}% · เป้า +${s.upsidePct}%</p>
+                        </div>
+                        <div onclick="openStockModal('${alt.symbol}')" class="rounded-lg bg-emerald-500/10 border border-emerald-500/30 p-2.5 cursor-pointer hover:border-emerald-400 transition-all">
+                            <p class="text-[10px] text-emerald-300 font-bold uppercase">🌟 ตัวท็อปน่าสลับเข้า (${alt.symbol} · ${alt.market})</p>
+                            <p class="font-extrabold text-emerald-300 mt-0.5">${plan.altCurr}${alt.price.toFixed(2)} · RRR 1:${alt.rrr}</p>
+                            <p class="text-[11px] text-emerald-200/80">เป้า +${alt.upsidePct}% (${alt.timingState === 'BUY_NOW' ? 'ซื้อได้เลย' : 'รอย่อ'})</p>
+                        </div>
+                    </div>
+                ` : '';
+
+                const avgBtnHtml = plan.actionType === 'AVG_DOWN' ? `
+                    <button type="button" onclick="executeAvgDownPosition('${s.symbol}', ${plan.totalSharesAfterAvg}, ${plan.newAvgCost})" class="flex-1 py-2 px-3 rounded-lg bg-sky-500/25 hover:bg-sky-500/35 border border-sky-400/50 text-sky-200 font-bold text-xs transition-all">
+                        ➕ บันทึกซื้อถัวเพิ่ม (+${plan.addShares} หุ้น → ทุนใหม่ ${plan.curr}${plan.newAvgCost})
+                    </button>
+                ` : '';
+
+                const switchBtnHtml = alt ? `
+                    <button type="button" onclick="executeSwitchPosition('${s.symbol}', '${alt.symbol}', ${plan.switchShares}, ${alt.price})" class="flex-1 py-2 px-3 rounded-lg bg-amber-500/25 hover:bg-amber-500/35 border border-amber-400/50 text-amber-200 font-bold text-xs transition-all">
+                        🔄 สลับพอร์ต: ขาย ${s.symbol.replace('.BK', '')} → ซื้อ ${alt.symbol.replace('.BK', '')} (${plan.switchShares} หุ้น)
+                    </button>
+                ` : '';
+
+                return `
+                    <div class="rounded-xl bg-[#090D16] border border-white/10 p-4 flex flex-col justify-between space-y-3">
+                        <div class="space-y-2.5">
+                            <div class="flex flex-wrap items-start justify-between gap-2">
+                                <div>
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span onclick="openStockModal('${s.symbol}')" class="text-base font-extrabold text-white hover:text-emerald-400 cursor-pointer">${s.symbol}</span>
+                                        <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">${mktFlag}</span>
+                                        <span class="text-xs text-slate-400">(${holdDesc})</span>
+                                    </div>
+                                    <p class="text-xs text-amber-200 font-semibold mt-1">${plan.headline}</p>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold border ${plan.badgeTone}">${plan.actionBadge}</span>
+                            </div>
+
+                            <p class="text-xs text-slate-200 leading-relaxed bg-white/[0.03] border border-white/5 rounded-xl p-3">
+                                <strong class="text-teal-300 mr-1">🗣️ คำแนะนำเจาะจง:</strong>${plan.detail}
+                            </p>
+
+                            ${altCompareHtml}
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-white/5">
+                            ${avgBtnHtml}
+                            ${switchBtnHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function setFilterState(state) {
             document.getElementById('filter-box').value = state;
             document.querySelectorAll('.status-pill').forEach(btn => {
@@ -1268,7 +2009,7 @@
             updateDisplay();
         }
 
-        // 💼 อัปเดตหน้า Portfolio & Purify (การ์ดสรุป THB/USD + ตาราง Active Positions เหมือนในภาพโปรเจกต์ 1)
+        // 💼 อัปเดตหน้า Portfolio & Purify (การ์ดสรุป THB/USD + ตาราง Active Positions + AI Allocator + AI Switching Advisor)
         function renderPortfolioAndPurifyView() {
             const heldList = processedStocksData.filter(s => s.isHeld);
             const thHeld = heldList.filter(s => s.market === 'TH');
@@ -1356,9 +2097,12 @@
                     `;
                 }).join('');
             }
+
+            renderSmartAllocatorUI();
+            renderPortfolioActionAdvisorUI();
         }
 
-        // 💼 อัปเดตแบนเนอร์พรีวิวพอร์ตบนหน้า Dashboard (ครบทั้งป้ายสรุปไทย/US จาก index (7).html และปุ่มลิงก์)
+        // 💼 อัปเดตแบนเนอร์พรีวิวพอร์ตบนหน้า Dashboard
         function renderActiveHoldingsBanner() {
             const heldList = processedStocksData.filter(s => s.isHeld);
             const banner = document.getElementById('active-holdings-banner');
@@ -1689,7 +2433,7 @@
             });
         }
 
-        // 💼 ฟังก์ชันเปิด/บันทึกหน้าต่าง Holding Editor Modal (รองรับการเลือกหุ้นจาก Dropdown)
+        // 💼 ฟังก์ชันเปิด/บันทึกหน้าต่าง Holding Editor Modal
         function openHoldingModal(symbol, event) {
             if (event) event.stopPropagation();
             if (!processedStocksData || processedStocksData.length === 0) return;
