@@ -32,7 +32,7 @@
 
     <div class="max-w-7xl mx-auto space-y-6">
         
-        <!-- 1. ส่วนหัว (Header) & สถานะตลาด -->
+        <!-- 1. ส่วนหัว (Header) + แท็บเมนูสลับหน้า (Navigation Tabs) + สถานะตลาด -->
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center bg-[#131824] p-5 sm:p-6 rounded-2xl shadow-xl border border-white/5 gap-4">
             <div class="flex items-center gap-3.5">
                 <div class="w-11 h-11 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.2)]">
@@ -40,25 +40,33 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-2.5 flex-wrap">
-                        <h1 class="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
+                        <h1 id="page-main-title" class="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
                             Trend Following PRO
                         </h1>
                         <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
                             AI Buddy, P/L & Purification Desk
                         </span>
                     </div>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-0.5">
+                    <p id="page-main-sub" class="text-slate-400 text-xs sm:text-sm mt-0.5">
                         <i class="fa-solid fa-robot text-indigo-400 mr-1"></i> เพื่อนคู่หู AI สแกนต้นรอบ EMA 50/200 ฟันธงจังหวะซื้อ ติดตามกำไรพอร์ตจริง และคำนวณชำระปันผลฮาลาล
                     </p>
                 </div>
             </div>
 
-            <!-- ป้ายสถานะตลาดสด & ปุ่มเครื่องคิดเลขปันผล & ปุ่มอัปเดต -->
+            <!-- ปุ่มสลับหน้า (Dashboard / Portfolio & Purify) & ป้ายสถานะตลาดสด -->
             <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto justify-end">
-                <button onclick="togglePurifyPanel()" class="px-3.5 py-2 bg-teal-500/15 hover:bg-teal-500/25 text-teal-300 rounded-xl border border-teal-500/30 transition-all flex items-center gap-2 text-xs font-bold shadow-sm">
-                    <i class="fa-solid fa-hand-holding-heart text-teal-400"></i>
-                    <span>🕌 คำนวณชำระปันผลฮาลาล</span>
-                </button>
+                <!-- แท็บสลับหน้า -->
+                <div class="flex items-center gap-1.5 bg-[#090D16] p-1.5 rounded-xl border border-white/10">
+                    <button type="button" onclick="switchMainView('dashboard')" id="nav-tab-dashboard" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span>Trend Dashboard</span>
+                    </button>
+                    <button type="button" onclick="switchMainView('myportfolio')" id="nav-tab-myportfolio" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 border border-transparent">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Portfolio & Purify</span>
+                        <span id="nav-held-badge" class="hidden px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500/30 text-emerald-200">0</span>
+                    </button>
+                </div>
 
                 <div id="market-open-badge" class="inline-flex items-center gap-2 px-3.5 py-2 bg-[#090D16] rounded-xl border border-white/10 text-xs font-medium text-slate-300">
                     <span id="market-open-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
@@ -77,17 +85,20 @@
             </div>
         </div>
 
-        <!-- 💼 2. แผงควบคุม "พอร์ตเงินสดในมือ & คำนวณขนาดไม้ลงทุนอัตโนมัติ" (อัปเดตได้ตลอดเวลา) -->
-        <div class="rounded-2xl border border-blue-500/25 bg-gradient-to-r from-[#131B2E] via-[#131824] to-[#122229] p-4 shadow-lg">
+        <!-- 💼 2. แผงควบคุม "พอร์ตเงินสดในมือ & คำนวณขนาดไม้ลงทุนอัตโนมัติ" (แสดงทั้ง 2 หน้าเหมือนในภาพ) -->
+        <div class="rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-[#131D2B] via-[#131824] to-[#132024] p-4 shadow-lg">
             <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
                 <div class="flex items-start sm:items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
                         <i class="fa-solid fa-wallet text-lg"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2 flex-wrap">
                             <h3 class="text-white font-bold text-sm">พอร์ตเงินสดในมือ & คำนวณขนาดไม้รันเทรนด์อัตโนมัติ</h3>
                             <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto-Saved</span>
+                            <button type="button" id="cashbar-portfolio-btn" onclick="switchMainView('myportfolio')" class="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-500/25 text-indigo-300 border border-indigo-400/40 hover:bg-indigo-500/35 font-semibold transition-all">
+                                💼 เปิดหน้า Portfolio & ชำระปันผล →
+                            </button>
                         </div>
                         <p class="text-slate-400 text-xs mt-0.5">
                             แก้ไขเงินสดในมือได้ตลอดเวลา เพื่อน AI จะคำนวณจุดตั้งซื้อ ความคุ้มค่า (RRR) และจำนวนหุ้นที่ควรซื้อในแต่ละการ์ดทันที
@@ -97,7 +108,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 xl:w-auto">
                     <!-- งบหุ้นไทย -->
-                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-blue-500/50 transition-all">
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-emerald-500/50 transition-all">
                         <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
                             <span>🇹🇭 งบหุ้นไทยในมือ (฿)</span>
                             <span class="text-emerald-400 font-semibold">THB</span>
@@ -109,7 +120,7 @@
                     </div>
 
                     <!-- งบหุ้นอเมริกา -->
-                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-blue-500/50 transition-all">
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl px-3.5 py-2 focus-within:border-emerald-500/50 transition-all">
                         <label class="text-[10px] text-slate-400 uppercase flex items-center justify-between">
                             <span>🇺🇸 งบหุ้นอเมริกาในมือ ($)</span>
                             <span class="text-sky-400 font-semibold">USD</span>
@@ -128,7 +139,7 @@
                         </label>
                         <div class="flex items-center gap-1.5 mt-1.5" id="alloc-pct-buttons">
                             <button type="button" onclick="setBaseAllocPct(10)" data-pct="10" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">10%</button>
-                            <button type="button" onclick="setBaseAllocPct(15)" data-pct="15" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-blue-500/25 border-blue-500/50 text-blue-300">15%</button>
+                            <button type="button" onclick="setBaseAllocPct(15)" data-pct="15" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-emerald-500/25 border-emerald-500/50 text-emerald-300">15%</button>
                             <button type="button" onclick="setBaseAllocPct(20)" data-pct="20" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">20%</button>
                             <button type="button" onclick="setBaseAllocPct(25)" data-pct="25" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">25%</button>
                             <button type="button" onclick="setBaseAllocPct(33)" data-pct="33" class="alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">33%</button>
@@ -138,259 +149,354 @@
             </div>
         </div>
 
-        <!-- 3. แถบสรุปสถิติภาพรวม 4 กล่อง (Quick Stats) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
-                <div>
-                    <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Total Coverage</p>
-                    <p id="stat-total" class="text-2xl font-extrabold text-white mt-1">0</p>
-                    <p id="stat-market-split" class="text-slate-500 text-xs mt-1">US & TH Tickers</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
-                    <i class="fa-solid fa-globe text-lg"></i>
-                </div>
-            </div>
-
-            <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
-                <div>
-                    <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Golden Cross / ขาขึ้น</p>
-                    <p id="stat-uptrend" class="text-2xl font-extrabold text-emerald-400 mt-1">0</p>
-                    <p id="stat-early-up" class="text-slate-500 text-xs mt-1">ต้นรอบขาขึ้น 0 ตัว</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                    <i class="fa-solid fa-arrow-trend-up text-lg"></i>
-                </div>
-            </div>
-
-            <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
-                <div>
-                    <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Buy Now / High RRR</p>
-                    <p id="stat-high-rrr" class="text-2xl font-extrabold text-sky-400 mt-1">0</p>
-                    <p id="stat-halal" class="text-slate-500 text-xs mt-1">ผ่านเกณฑ์ฮาลาล 0/0 ตัว</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400">
-                    <i class="fa-solid fa-bullseye text-lg"></i>
-                </div>
-            </div>
-
-            <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
-                <div>
-                    <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Pinned & Active</p>
-                    <p id="stat-fav" class="text-2xl font-extrabold text-amber-400 mt-1">0</p>
-                    <p id="stat-held-sub" class="text-slate-500 text-xs mt-1">หุ้นโปรดที่ปักหมุดไว้บนสุด</p>
-                </div>
-                <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
-                    <i class="fa-solid fa-star text-lg"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- 💼 แผงสรุป "พอร์ตหุ้นที่คุณซื้อถืออยู่จริง (My Active Positions & Real-time P/L)" แสดงอัตโนมัติเมื่อมีหุ้นที่ถืออยู่ -->
-        <div id="active-holdings-banner" class="hidden rounded-2xl border border-indigo-500/35 bg-gradient-to-r from-indigo-950/35 via-[#131824] to-emerald-950/20 p-5 shadow-xl space-y-4 fade-in">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
-                <div>
-                    <h3 class="text-white font-bold text-sm sm:text-base flex items-center gap-2">
-                        <i class="fa-solid fa-briefcase text-indigo-400"></i>
-                        💼 พอร์ตหุ้นที่คุณซื้อถืออยู่จริง (My Active Positions & Real-time P/L)
-                    </h3>
-                    <p class="text-slate-400 text-xs mt-0.5">คำนวณกำไร/ขาดทุนสุทธิแบบ Real-time เทียบราคาตลาดล่าสุด พร้อมสัญญาณเตือนจากเพื่อน AI</p>
-                </div>
-                <div class="flex flex-wrap items-center gap-3 text-xs">
-                    <div class="px-3 py-1.5 rounded-xl bg-[#090D16] border border-white/10">
-                        <span class="text-slate-400">🇹🇭 พอร์ตไทย:</span>
-                        <span id="summary-th-val" class="font-bold text-white ml-1">฿0.00</span>
-                        <span id="summary-th-pnl" class="font-extrabold text-emerald-400 ml-1">(+฿0.00)</span>
+        <!-- ======================================================================= -->
+        <!-- VIEW 1: หน้าหลัก TREND DASHBOARD (สแกนเทรนด์ & การ์ดสัญญาณหุ้นทั้งหมด) -->
+        <!-- ======================================================================= -->
+        <div id="view-dashboard-section" class="space-y-6">
+            <!-- 3. แถบสรุปสถิติภาพรวม 4 กล่อง (Quick Stats) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Total Coverage</p>
+                        <p id="stat-total" class="text-2xl font-extrabold text-white mt-1">0</p>
+                        <p id="stat-market-split" class="text-slate-500 text-xs mt-1">US & TH Tickers</p>
                     </div>
-                    <div class="px-3 py-1.5 rounded-xl bg-[#090D16] border border-white/10">
-                        <span class="text-slate-400">🇺🇸 พอร์ต US:</span>
-                        <span id="summary-us-val" class="font-bold text-white ml-1">$0.00</span>
-                        <span id="summary-us-pnl" class="font-extrabold text-emerald-400 ml-1">(+$0.00)</span>
+                    <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                        <i class="fa-solid fa-globe text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Golden Cross / ขาขึ้น</p>
+                        <p id="stat-uptrend" class="text-2xl font-extrabold text-emerald-400 mt-1">0</p>
+                        <p id="stat-early-up" class="text-slate-500 text-xs mt-1">ต้นรอบขาขึ้น 0 ตัว</p>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                        <i class="fa-solid fa-arrow-trend-up text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Buy Now / High RRR</p>
+                        <p id="stat-high-rrr" class="text-2xl font-extrabold text-sky-400 mt-1">0</p>
+                        <p id="stat-halal" class="text-slate-500 text-xs mt-1">ผ่านเกณฑ์ฮาลาล 0/0 ตัว</p>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400">
+                        <i class="fa-solid fa-bullseye text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="bg-[#131824] rounded-2xl p-4 border border-white/5 flex items-start justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Pinned & Active</p>
+                        <p id="stat-fav" class="text-2xl font-extrabold text-amber-400 mt-1">0</p>
+                        <p id="stat-held-sub" class="text-slate-500 text-xs mt-1">หุ้นโปรดที่ปักหมุดไว้บนสุด</p>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                        <i class="fa-solid fa-star text-lg"></i>
                     </div>
                 </div>
             </div>
-            <div id="active-holdings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-        </div>
 
-        <!-- 🕌 แผงเครื่องคิดเลข "ชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification Calculator - AAOIFI)" (เปิด/ซ่อนได้) -->
-        <div id="purification-panel" class="hidden rounded-2xl border border-teal-500/35 bg-gradient-to-br from-[#112224] via-[#131824] to-[#131824] p-5 shadow-xl space-y-4 fade-in">
-            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
-                <div>
-                    <h3 class="text-white font-bold text-base flex items-center gap-2">
-                        🕌 เครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification)
-                        <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-semibold">AAOIFI Standard</span>
-                    </h3>
-                    <p class="text-slate-400 text-xs mt-0.5">
-                        คำนวณยอดบริจาคชำระล้างรายได้ดอกเบี้ยแฝงของบริษัท เพื่อให้เงินปันผลที่คุณได้รับสะอาดบริสุทธิ์ 100%
-                    </p>
+            <!-- 💼 แผงสรุป "พอร์ตหุ้นที่คุณซื้อถืออยู่จริง (My Active Positions & Real-time P/L)" แสดงครบทั้งป้ายสรุปไทย/US และปุ่มไปหน้า Portfolio -->
+            <div id="active-holdings-banner" class="hidden rounded-2xl border border-indigo-500/35 bg-gradient-to-r from-indigo-950/35 via-[#131824] to-emerald-950/20 p-5 shadow-xl space-y-4 fade-in">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+                    <div>
+                        <h3 class="text-white font-bold text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-briefcase text-indigo-400"></i>
+                            💼 พอร์ตหุ้นที่คุณซื้อถืออยู่จริง (My Active Positions & Real-time P/L)
+                        </h3>
+                        <p class="text-slate-400 text-xs mt-0.5">คำนวณกำไร/ขาดทุนสุทธิแบบ Real-time เทียบราคาตลาดล่าสุด พร้อมสัญญาณเตือนจากเพื่อน AI</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2.5 text-xs">
+                        <div class="px-3 py-1.5 rounded-xl bg-[#090D16] border border-white/10">
+                            <span class="text-slate-400">🇹🇭 พอร์ตไทย:</span>
+                            <span id="summary-th-val" class="font-bold text-white ml-1">฿0.00</span>
+                            <span id="summary-th-pnl" class="font-extrabold text-emerald-400 ml-1">(+฿0.00)</span>
+                        </div>
+                        <div class="px-3 py-1.5 rounded-xl bg-[#090D16] border border-white/10">
+                            <span class="text-slate-400">🇺🇸 พอร์ต US:</span>
+                            <span id="summary-us-val" class="font-bold text-white ml-1">$0.00</span>
+                            <span id="summary-us-pnl" class="font-extrabold text-emerald-400 ml-1">(+$0.00)</span>
+                        </div>
+                        <button type="button" onclick="switchMainView('myportfolio')" class="px-3 py-1.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-400/40 text-indigo-200 font-bold transition-all">
+                            ดูตารางพอร์ต & ชำระปันผล →
+                        </button>
+                    </div>
                 </div>
-                <button onclick="togglePurifyPanel()" class="px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs">
-                    ✕ ซ่อนหน้าต่างนี้
+                <div id="active-holdings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+            </div>
+
+            <!-- 4. แถบปุ่มกรองสถานะเทรนด์ด่วน (Status Filter Pills) -->
+            <div class="flex flex-wrap items-center gap-2" id="status-pills">
+                <button onclick="setFilterState('ALL')" data-state="ALL" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-blue-500/20 border-blue-500/50 text-blue-300">
+                    <span>ดูทั้งหมด</span>
+                    <span id="count-ALL" class="px-1.5 py-0.5 rounded-md text-[10px] bg-blue-500/30 text-white">0</span>
+                </button>
+                <button onclick="setFilterState('EARLY_UP')" data-state="EARLY_UP" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
+                    <span>⚡ ต้นรอบขาขึ้น (Golden Cross)</span>
+                    <span id="count-EARLY_UP" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
+                </button>
+                <button onclick="setFilterState('UP')" data-state="UP" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
+                    <span>🟢 ขาขึ้น (Uptrend)</span>
+                    <span id="count-UP" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
+                </button>
+                <button onclick="setFilterState('WARNING')" data-state="WARNING" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
+                    <span>⚠️ เตือนภัย (Death Cross)</span>
+                    <span id="count-WARNING" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
+                </button>
+                <button onclick="setFilterState('DOWN')" data-state="DOWN" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
+                    <span>🔴 ขาลง (Downtrend)</span>
+                    <span id="count-DOWN" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3.5">
-                <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
-                    <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">1. เลือกหุ้นที่ได้รับปันผล</label>
-                    <select id="purify-ticker-select" onchange="onPurifyTickerChange()" class="w-full bg-transparent text-white font-bold text-sm outline-none cursor-pointer"></select>
-                    <p id="purify-stock-info" class="text-[10px] text-teal-400 mt-1.5">สัดส่วนหนี้ฮาลาล: -</p>
-                </div>
-
-                <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
-                    <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">2. เงินปันผลที่ได้รับ</label>
-                    <div class="flex items-center gap-1">
-                        <span id="purify-curr-symbol" class="text-slate-400 font-bold text-sm">$</span>
-                        <input type="number" id="purify-dividend-input" min="0" step="any" value="1000" oninput="calculatePurificationUI()" class="w-full bg-transparent text-white font-extrabold text-base outline-none">
+            <!-- 5. แผงเครื่องมือค้นหา กรองตลาด กรองหุ้นโปรด กรองหุ้นถือจริง และจัดเรียง (Control Toolbar) -->
+            <div class="bg-[#131824] rounded-2xl border border-white/5 p-4 flex flex-col xl:flex-row xl:items-center gap-3 justify-between shadow-lg">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 flex-1 flex-wrap">
+                    <!-- ช่องค้นหา -->
+                    <div class="relative w-full sm:w-60">
+                        <i class="fa-solid fa-magnifying-glass text-slate-500 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="search-box" class="w-full bg-[#090D16] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all" placeholder="ค้นหาชื่อย่อ หรือ บริษัท...">
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-1">กรอกยอดก่อนหักภาษี หรือยอดสุทธิก็ได้</p>
-                </div>
 
-                <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
-                    <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">3. หักภาษี ณ ที่จ่าย (%)</label>
-                    <div class="flex items-center gap-1.5 mt-1">
-                        <button type="button" onclick="setPurifyTax(0)" id="ptax-0" class="flex-1 py-1 rounded-lg text-[10px] font-bold border bg-white/5 border-white/10 text-slate-400">0% (สุทธิ)</button>
-                        <button type="button" onclick="setPurifyTax(10)" id="ptax-10" class="flex-1 py-1 rounded-lg text-[10px] font-bold border bg-white/5 border-white/10 text-slate-400">10% (ไทย)</button>
-                        <button type="button" onclick="setPurifyTax(15)" id="ptax-15" class="flex-1 py-1 rounded-lg text-[10px] font-bold border bg-teal-500/25 border-teal-400/50 text-teal-300">15% (US)</button>
+                    <!-- ปุ่มสลับตลาด US / TH -->
+                    <div class="flex items-center gap-1 bg-[#090D16] p-1 rounded-xl border border-white/10 self-start">
+                        <button onclick="setMarketFilter('ALL')" id="mkt-ALL" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-blue-500/20 text-blue-400 border border-blue-500/40">ทั้งหมด</button>
+                        <button onclick="setMarketFilter('US')" id="mkt-US" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">🇺🇸 US</button>
+                        <button onclick="setMarketFilter('TH')" id="mkt-TH" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">🇹🇭 TH</button>
                     </div>
-                    <p id="purify-net-after-tax" class="text-[10px] text-slate-400 mt-1.5">รับจริงหลังภาษี: $850.00</p>
+
+                    <!-- ปุ่มกรองเฉพาะหุ้นโปรด -->
+                    <button onclick="toggleFavFilter()" id="fav-filter-btn" class="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold border transition-all self-start bg-[#090D16] border-white/10 text-slate-300 hover:border-amber-400/30">
+                        <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                        <span id="fav-filter-label">หุ้นโปรด (0)</span>
+                    </button>
+
+                    <!-- ปุ่มกรองเฉพาะหุ้นที่ซื้อถืออยู่จริง -->
+                    <button onclick="toggleHeldFilter()" id="held-filter-btn" class="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold border transition-all self-start bg-[#090D16] border-white/10 text-slate-300 hover:border-indigo-400/40">
+                        <i class="fa-solid fa-briefcase text-indigo-400 text-xs"></i>
+                        <span id="held-filter-label">ถือจริง (0)</span>
+                    </button>
                 </div>
 
-                <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
-                    <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">4. สัดส่วนชำระล้าง (% รายได้แฝง)</label>
-                    <div class="flex items-center gap-1">
-                        <input type="number" id="purify-rate-input" min="0" max="100" step="0.1" value="1.5" oninput="calculatePurificationUI()" class="w-full bg-transparent text-amber-300 font-extrabold text-base outline-none">
-                        <span class="text-amber-300 font-bold text-sm">%</span>
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <select id="filter-box" class="hidden">
+                        <option value="ALL">ดูทั้งหมด (All)</option>
+                        <option value="EARLY_UP">⚡ ต้นรอบขาขึ้น (Golden Cross)</option>
+                        <option value="UP">🟢 ขาขึ้น (Uptrend)</option>
+                        <option value="WARNING">⚠️ เตือนภัย (Death Cross)</option>
+                        <option value="DOWN">🔴 ขาลง (Downtrend)</option>
+                    </select>
+
+                    <!-- ตัวเลือกการเรียงลำดับ (Sort) -->
+                    <div class="flex items-center gap-2 bg-[#090D16] border border-white/10 rounded-xl px-3 py-2">
+                        <i class="fa-solid fa-arrow-up-wide-short text-blue-400 text-xs"></i>
+                        <span class="text-xs text-slate-400">เรียงตาม:</span>
+                        <select id="sort-box" class="bg-transparent text-xs font-medium text-white outline-none cursor-pointer">
+                            <option value="BUY_NOW_FIRST" class="bg-[#131824]">ซื้อตอนนี้ได้เลยก่อน (Buy Now)</option>
+                            <option value="HELD_FIRST" class="bg-[#131824]">หุ้นที่ถืออยู่ในพอร์ตก่อน</option>
+                            <option value="TREND_PRIORITY" class="bg-[#131824]">สัญญาณต้นรอบขาขึ้นก่อน</option>
+                            <option value="RRR_DESC" class="bg-[#131824]">ความคุ้มค่า (RRR) สูงสุด</option>
+                            <option value="GAP_ASC" class="bg-[#131824]">จุดเพิ่งตัด (EMA Gap แคบสุด)</option>
+                            <option value="GAP_DESC" class="bg-[#131824]">เทรนด์แข็งแกร่งสุด (EMA Gap กว้างสุด)</option>
+                            <option value="CHANGE_DESC" class="bg-[#131824]">ราคาบวกแรงสุดวันนี้</option>
+                            <option value="DEBT_ASC" class="bg-[#131824]">หนี้สินฮาลาลต่ำสุด</option>
+                        </select>
                     </div>
-                    <p id="purify-rate-hint" class="text-[10px] text-slate-500 mt-1">ค่าประมาณการตามเกณฑ์ AAOIFI</p>
-                </div>
-            </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-                <div class="rounded-xl bg-[#090D16] border border-white/10 p-3.5">
-                    <p class="text-[11px] text-slate-400">เงินปันผลรับสุทธิ (หลังภาษี)</p>
-                    <p id="purify-res-net" class="text-xl font-extrabold text-white mt-0.5">$850.00</p>
-                </div>
-
-                <div class="rounded-xl bg-amber-500/10 border border-amber-400/40 p-3.5">
-                    <p id="purify-res-donate-label" class="text-[11px] text-amber-300 font-bold">🤲 ยอดที่ต้องแบ่งบริจาคชำระล้าง (1.5%)</p>
-                    <p id="purify-res-donate" class="text-2xl font-extrabold text-amber-300 mt-0.5">$12.75</p>
-                    <p class="text-[10px] text-amber-200/70 mt-0.5">นำไปบริจาคสาธารณประโยชน์ (ไม่หวังผลตอบแทน)</p>
-                </div>
-
-                <div class="rounded-xl bg-emerald-500/15 border border-emerald-400/40 p-3.5 flex flex-col justify-between">
-                    <div>
-                        <p class="text-[11px] text-emerald-300 font-bold">✨ เงินปันผลฮาลาลบริสุทธิ์ 100% (เก็บใช้ได้)</p>
-                        <p id="purify-res-pure" class="text-2xl font-extrabold text-emerald-300 mt-0.5">$837.25</p>
-                    </div>
-                    <button type="button" onclick="savePurificationLog()" class="mt-2 w-full py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-all">
-                        + บันทึกประวัติการชำระล้างปันผล
+                    <!-- สวิตช์กรองเฉพาะหุ้นฮาลาล -->
+                    <button onclick="toggleHalalFilter()" id="halal-filter-btn" class="flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-medium border transition-all bg-[#090D16] border-white/10 text-slate-300 hover:border-white/20">
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                        <span>เฉพาะฮาลาล</span>
+                        <span id="halal-toggle-bg" class="ml-1 w-8 h-4 rounded-full relative transition-colors bg-slate-700 inline-block">
+                            <span id="halal-toggle-dot" class="absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-all"></span>
+                        </span>
                     </button>
                 </div>
             </div>
 
-            <div id="purify-logs-wrapper" class="hidden pt-3 border-t border-white/10">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-bold text-slate-300">📜 ประวัติการชำระล้างเงินปันผลที่บันทึกไว้</span>
-                    <button type="button" onclick="clearPurificationLogs()" class="text-[11px] text-rose-400 hover:underline">ล้างประวัติทั้งหมด</button>
+            <!-- 6. พื้นที่แสดงการ์ดหุ้น -->
+            <div id="stock-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <div class="col-span-full text-center py-20 text-slate-500 animate-pulse bg-[#131824] rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-satellite-dish text-4xl mb-3 text-blue-400"></i>
+                    <p class="text-white font-semibold">กำลังดึงข้อมูลกราฟและคำนวณเทรนด์ EMA 50/200...</p>
+                    <p id="loading-progress" class="text-xs text-slate-400 mt-1">ระบบจะรีเฟรชอัตโนมัติเมื่อสแกนเสร็จครับ</p>
                 </div>
-                <div id="purify-logs-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
             </div>
         </div>
 
-        <!-- 4. แถบปุ่มกรองสถานะเทรนด์ด่วน (Status Filter Pills) -->
-        <div class="flex flex-wrap items-center gap-2" id="status-pills">
-            <button onclick="setFilterState('ALL')" data-state="ALL" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-blue-500/20 border-blue-500/50 text-blue-300">
-                <span>ดูทั้งหมด</span>
-                <span id="count-ALL" class="px-1.5 py-0.5 rounded-md text-[10px] bg-blue-500/30 text-white">0</span>
-            </button>
-            <button onclick="setFilterState('EARLY_UP')" data-state="EARLY_UP" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
-                <span>⚡ ต้นรอบขาขึ้น (Golden Cross)</span>
-                <span id="count-EARLY_UP" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
-            </button>
-            <button onclick="setFilterState('UP')" data-state="UP" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
-                <span>🟢 ขาขึ้น (Uptrend)</span>
-                <span id="count-UP" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
-            </button>
-            <button onclick="setFilterState('WARNING')" data-state="WARNING" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
-                <span>⚠️ เตือนภัย (Death Cross)</span>
-                <span id="count-WARNING" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
-            </button>
-            <button onclick="setFilterState('DOWN')" data-state="DOWN" class="status-pill px-4 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-2 bg-[#131824] border-white/10 text-slate-400 hover:text-slate-200">
-                <span>🔴 ขาลง (Downtrend)</span>
-                <span id="count-DOWN" class="px-1.5 py-0.5 rounded-md text-[10px] bg-white/5 text-slate-400">0</span>
-            </button>
-        </div>
-
-        <!-- 5. แผงเครื่องมือค้นหา กรองตลาด กรองหุ้นโปรด กรองหุ้นถือจริง และจัดเรียง (Control Toolbar) -->
-        <div class="bg-[#131824] rounded-2xl border border-white/5 p-4 flex flex-col xl:flex-row xl:items-center gap-3 justify-between shadow-lg">
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 flex-1 flex-wrap">
-                <!-- ช่องค้นหา -->
-                <div class="relative w-full sm:w-60">
-                    <i class="fa-solid fa-magnifying-glass text-slate-500 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                    <input type="text" id="search-box" class="w-full bg-[#090D16] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all" placeholder="ค้นหาชื่อย่อ หรือ บริษัท...">
+        <!-- ======================================================================= -->
+        <!-- VIEW 2: หน้า PORTFOLIO & PURIFY (เหมือนในภาพโปรเจกต์ 1 ทุกจุด 100%) -->
+        <!-- ======================================================================= -->
+        <div id="view-portfolio-section" class="hidden space-y-6 fade-in">
+            
+            <!-- แถวที่ 1: สรุปมูลค่าพอร์ตหุ้นที่ถือจริง แยกไทย (฿) และอเมริกา ($) เหมือนในภาพ -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- การ์ดพอร์ตหุ้นไทย -->
+                <div class="rounded-2xl border border-white/10 p-5 bg-[#131824]">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase">🇹🇭 พอร์ตหุ้นไทยที่ถือจริง (THB)</span>
+                        <span id="port-th-count" class="text-xs px-2 py-0.5 rounded bg-white/5 text-slate-300">0 บริษัท</span>
+                    </div>
+                    <div class="flex items-baseline justify-between mt-3">
+                        <div>
+                            <p class="text-[11px] text-slate-500">มูลค่าตลาดปัจจุบัน</p>
+                            <p id="port-th-current" class="text-2xl font-extrabold text-white">฿0.00</p>
+                            <p id="port-th-invested" class="text-xs text-slate-400 mt-0.5">ต้นทุนรวม: ฿0.00</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[11px] text-slate-500">กำไร/ขาดทุนรวม</p>
+                            <p id="port-th-pnl" class="text-xl font-extrabold text-emerald-400">+฿0.00</p>
+                            <p id="port-th-pnl-pct" class="text-xs font-bold text-emerald-400">(+0.00%)</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- ปุ่มสลับตลาด US / TH -->
-                <div class="flex items-center gap-1 bg-[#090D16] p-1 rounded-xl border border-white/10 self-start">
-                    <button onclick="setMarketFilter('ALL')" id="mkt-ALL" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-blue-500/20 text-blue-400 border border-blue-500/40">ทั้งหมด</button>
-                    <button onclick="setMarketFilter('US')" id="mkt-US" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">🇺🇸 US</button>
-                    <button onclick="setMarketFilter('TH')" id="mkt-TH" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">🇹🇭 TH</button>
+                <!-- การ์ดพอร์ตหุ้นอเมริกา -->
+                <div class="rounded-2xl border border-white/10 p-5 bg-[#131824]">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase">🇺🇸 พอร์ตหุ้นอเมริกาที่ถือจริง (USD)</span>
+                        <span id="port-us-count" class="text-xs px-2 py-0.5 rounded bg-white/5 text-slate-300">0 บริษัท</span>
+                    </div>
+                    <div class="flex items-baseline justify-between mt-3">
+                        <div>
+                            <p class="text-[11px] text-slate-500">มูลค่าตลาดปัจจุบัน</p>
+                            <p id="port-us-current" class="text-2xl font-extrabold text-white">$0.00</p>
+                            <p id="port-us-invested" class="text-xs text-slate-400 mt-0.5">ต้นทุนรวม: $0.00</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[11px] text-slate-500">กำไร/ขาดทุนรวม</p>
+                            <p id="port-us-pnl" class="text-xl font-extrabold text-emerald-400">+$0.00</p>
+                            <p id="port-us-pnl-pct" class="text-xs font-bold text-emerald-400">(+0.00%)</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- ปุ่มกรองเฉพาะหุ้นโปรด -->
-                <button onclick="toggleFavFilter()" id="fav-filter-btn" class="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold border transition-all self-start bg-[#090D16] border-white/10 text-slate-300 hover:border-amber-400/30">
-                    <i class="fa-solid fa-star text-amber-400 text-xs"></i>
-                    <span id="fav-filter-label">หุ้นโปรด (0)</span>
-                </button>
-
-                <!-- ปุ่มกรองเฉพาะหุ้นที่ซื้อถืออยู่จริง -->
-                <button onclick="toggleHeldFilter()" id="held-filter-btn" class="flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold border transition-all self-start bg-[#090D16] border-white/10 text-slate-300 hover:border-indigo-400/40">
-                    <i class="fa-solid fa-briefcase text-indigo-400 text-xs"></i>
-                    <span id="held-filter-label">ถือจริง (0)</span>
-                </button>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2.5">
-                <select id="filter-box" class="hidden">
-                    <option value="ALL">ดูทั้งหมด (All)</option>
-                    <option value="EARLY_UP">⚡ ต้นรอบขาขึ้น (Golden Cross)</option>
-                    <option value="UP">🟢 ขาขึ้น (Uptrend)</option>
-                    <option value="WARNING">⚠️ เตือนภัย (Death Cross)</option>
-                    <option value="DOWN">🔴 ขาลง (Downtrend)</option>
-                </select>
-
-                <!-- ตัวเลือกการเรียงลำดับ (Sort) -->
-                <div class="flex items-center gap-2 bg-[#090D16] border border-white/10 rounded-xl px-3 py-2">
-                    <i class="fa-solid fa-arrow-up-wide-short text-blue-400 text-xs"></i>
-                    <span class="text-xs text-slate-400">เรียงตาม:</span>
-                    <select id="sort-box" class="bg-transparent text-xs font-medium text-white outline-none cursor-pointer">
-                        <option value="BUY_NOW_FIRST" class="bg-[#131824]">ซื้อตอนนี้ได้เลยก่อน (Buy Now)</option>
-                        <option value="HELD_FIRST" class="bg-[#131824]">หุ้นที่ถืออยู่ในพอร์ตก่อน</option>
-                        <option value="TREND_PRIORITY" class="bg-[#131824]">สัญญาณต้นรอบขาขึ้นก่อน</option>
-                        <option value="RRR_DESC" class="bg-[#131824]">ความคุ้มค่า (RRR) สูงสุด</option>
-                        <option value="GAP_ASC" class="bg-[#131824]">จุดเพิ่งตัด (EMA Gap แคบสุด)</option>
-                        <option value="GAP_DESC" class="bg-[#131824]">เทรนด์แข็งแกร่งสุด (EMA Gap กว้างสุด)</option>
-                        <option value="CHANGE_DESC" class="bg-[#131824]">ราคาบวกแรงสุดวันนี้</option>
-                        <option value="DEBT_ASC" class="bg-[#131824]">หนี้สินฮาลาลต่ำสุด</option>
-                    </select>
+            <!-- แถวที่ 2: รายการหุ้นที่คุณซื้อถืออยู่จริง (Active Positions) เหมือนในภาพ -->
+            <div class="rounded-2xl border border-white/5 p-5 bg-[#131824]">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <h3 class="text-white font-bold text-base">💼 รายการหุ้นที่คุณซื้อถืออยู่จริง (Active Positions)</h3>
+                        <p class="text-slate-400 text-xs">คลิกปุ่ม "+ บันทึกหุ้นเข้าพอร์ตเพิ่ม" เพื่ออัปเดตต้นทุนและจำนวนหุ้นของคุณ</p>
+                    </div>
+                    <button type="button" onclick="openHoldingModal(null, event)" class="px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition-all">
+                        + บันทึกหุ้นเข้าพอร์ตเพิ่ม
+                    </button>
                 </div>
 
-                <!-- สวิตช์กรองเฉพาะหุ้นฮาลาล -->
-                <button onclick="toggleHalalFilter()" id="halal-filter-btn" class="flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-medium border transition-all bg-[#090D16] border-white/10 text-slate-300 hover:border-white/20">
-                    <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-                    <span>เฉพาะฮาลาล</span>
-                    <span id="halal-toggle-bg" class="ml-1 w-8 h-4 rounded-full relative transition-colors bg-slate-700 inline-block">
-                        <span id="halal-toggle-dot" class="absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-all"></span>
+                <!-- กล่องแสดงเมื่อยังไม่มีหุ้นที่ถืออยู่ (เหมือนในภาพ) -->
+                <div id="port-empty-state" class="rounded-xl bg-[#090D16] border border-white/5 p-8 text-center space-y-2">
+                    <p class="text-slate-300 font-semibold text-sm">ยังไม่มีรายการหุ้นที่บันทึกว่าถืออยู่จริง</p>
+                    <p class="text-slate-500 text-xs">
+                        คุณสามารถกดปุ่ม <strong>"💼 บันทึกว่าซื้อถืออยู่จริง"</strong> บนการ์ดหุ้นตัวไหนก็ได้ เพื่อเริ่มติดตามกำไร/ขาดทุนแบบ Real-time
+                    </p>
+                </div>
+
+                <!-- ตารางแสดงเมื่อมีหุ้นที่ถืออยู่ -->
+                <div id="port-table-wrapper" class="hidden overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-white/5 bg-[#090D16]/60 text-left text-slate-400 text-xs uppercase">
+                                <th class="px-4 py-3 font-semibold">หุ้น</th>
+                                <th class="px-4 py-3 font-semibold">จำนวนที่ถือ</th>
+                                <th class="px-4 py-3 font-semibold">ทุนเฉลี่ย → ราคาปัจจุบัน</th>
+                                <th class="px-4 py-3 font-semibold">มูลค่าปัจจุบัน</th>
+                                <th class="px-4 py-3 font-semibold">กำไร / ขาดทุน (P/L)</th>
+                                <th class="px-4 py-3 font-semibold">คำแนะนำเพื่อน AI สำหรับคนมีของ</th>
+                                <th class="px-4 py-3 font-semibold"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="port-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- แถวที่ 3: 🕌 เครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification) แสดงถาวรเหมือนในภาพ -->
+            <div id="purification-panel" class="rounded-2xl border border-teal-500/30 bg-gradient-to-br from-[#112224] via-[#131824] to-[#131824] p-5 shadow-xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                    <div>
+                        <h3 class="text-white font-bold text-base flex items-center gap-2">
+                            🕌 เครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification)
+                        </h3>
+                        <p class="text-slate-400 text-xs mt-0.5">
+                            คำนวณยอดบริจาคชำระล้างรายได้ดอกเบี้ยแฝงตามมาตรฐาน AAOIFI เพื่อให้เงินปันผลสะอาดบริสุทธิ์ 100%
+                        </p>
+                    </div>
+                    <span class="text-[11px] px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-semibold">
+                        AAOIFI Shariah Standard
                     </span>
-                </button>
-            </div>
-        </div>
+                </div>
 
-        <!-- 6. พื้นที่แสดงการ์ดหุ้น -->
-        <div id="stock-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            <div class="col-span-full text-center py-20 text-slate-500 animate-pulse bg-[#131824] rounded-2xl border border-white/5">
-                <i class="fa-solid fa-satellite-dish text-4xl mb-3 text-blue-400"></i>
-                <p class="text-white font-semibold">กำลังดึงข้อมูลกราฟและคำนวณเทรนด์ EMA 50/200...</p>
-                <p id="loading-progress" class="text-xs text-slate-400 mt-1">ระบบจะรีเฟรชอัตโนมัติเมื่อสแกนเสร็จครับ</p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3.5">
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">1. เลือกหุ้นที่ได้รับปันผล</label>
+                        <select id="purify-ticker-select" onchange="onPurifyTickerChange()" class="w-full bg-transparent text-white font-bold text-sm outline-none cursor-pointer"></select>
+                        <p id="purify-stock-info" class="text-[10px] text-teal-400 mt-1.5">หนี้สินฮาลาล: -</p>
+                    </div>
+
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">2. เงินปันผลที่ได้รับ</label>
+                        <div class="flex items-center gap-1">
+                            <span id="purify-curr-symbol" class="text-slate-400 font-bold text-sm">$</span>
+                            <input type="number" id="purify-dividend-input" min="0" step="any" value="1000" oninput="calculatePurificationUI()" class="w-full bg-transparent text-white font-extrabold text-base outline-none">
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-1">กรอกยอดก่อนหักภาษี หรือยอดสุทธิก็ได้</p>
+                    </div>
+
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">3. หักภาษี ณ ที่จ่าย (%)</label>
+                        <div class="flex items-center gap-1.5 mt-1">
+                            <button type="button" onclick="setPurifyTax(0)" id="ptax-0" class="flex-1 py-1 rounded-lg text-[10px] font-bold border bg-white/5 border-white/10 text-slate-400">0% (ยอดสุทธิแล้ว)</button>
+                            <button type="button" onclick="setPurifyTax(10)" id="ptax-10" class="flex-1 py-1 rounded-lg text-[10px] font-bold border bg-white/5 border-white/10 text-slate-400">10% (ไทย)</button>
+                            <button type="button" onclick="setPurifyTax(15)" id="ptax-15" class="flex-1 py-1 rounded-lg text-[10px] font-bold border bg-teal-500/25 border-teal-400/50 text-teal-300">15% (US)</button>
+                        </div>
+                        <p id="purify-net-after-tax" class="text-[10px] text-slate-500 mt-1.5">รับจริงหลังภาษี: <strong class="text-slate-300">$850.00</strong></p>
+                    </div>
+
+                    <div class="bg-[#090D16] border border-white/10 rounded-xl p-3">
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">4. สัดส่วนชำระล้าง (% รายได้แฝง)</label>
+                        <div class="flex items-center gap-1">
+                            <input type="number" id="purify-rate-input" min="0" max="100" step="0.1" value="1.5" oninput="calculatePurificationUI()" class="w-full bg-transparent text-amber-300 font-extrabold text-base outline-none">
+                            <span class="text-amber-300 font-bold text-sm">%</span>
+                        </div>
+                        <p id="purify-rate-hint" class="text-[10px] text-slate-500 mt-1">ค่าประมาณการตามเกณฑ์ AAOIFI</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                    <div class="rounded-xl bg-[#090D16] border border-white/10 p-3.5">
+                        <p class="text-[11px] text-slate-400">เงินปันผลรับสุทธิ (หลังภาษี)</p>
+                        <p id="purify-res-net" class="text-xl font-extrabold text-white mt-0.5">$850.00</p>
+                    </div>
+
+                    <div class="rounded-xl bg-amber-500/10 border border-amber-400/40 p-3.5">
+                        <p id="purify-res-donate-label" class="text-[11px] text-amber-300 font-bold">🤲 ยอดที่ต้องแบ่งบริจาคชำระล้าง (1.5%)</p>
+                        <p id="purify-res-donate" class="text-2xl font-extrabold text-amber-300 mt-0.5">$12.75</p>
+                        <p class="text-[10px] text-amber-200/70 mt-0.5">นำไปบริจาคสาธารณประโยชน์ (ไม่หวังผลตอบแทน)</p>
+                    </div>
+
+                    <div class="rounded-xl bg-emerald-500/15 border border-emerald-400/40 p-3.5 flex flex-col justify-between">
+                        <div>
+                            <p class="text-[11px] text-emerald-300 font-bold">✨ เงินปันผลฮาลาลบริสุทธิ์ 100% (เก็บใช้ได้)</p>
+                            <p id="purify-res-pure" class="text-2xl font-extrabold text-emerald-300 mt-0.5">$837.25</p>
+                        </div>
+                        <button type="button" onclick="savePurificationLog()" class="mt-2 w-full py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-all">
+                            + บันทึกประวัติการชำระล้างปันผล
+                        </button>
+                    </div>
+                </div>
+
+                <div id="purify-logs-wrapper" class="hidden pt-3 border-t border-white/10">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-300">📜 ประวัติการชำระล้างเงินปันผลที่บันทึกไว้</span>
+                        <button type="button" onclick="clearPurificationLogs()" class="text-[11px] text-rose-400 hover:underline">ล้างประวัติทั้งหมด</button>
+                    </div>
+                    <div id="purify-logs-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -520,7 +626,7 @@
 
     <!-- 💼 8. หน้าต่างป๊อปอัปบันทึก/แก้ไข "หุ้นที่ฉันซื้อถืออยู่จริง (Holding Editor Modal)" -->
     <div id="holding-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4" onclick="closeHoldingModal(event)">
-        <div class="bg-[#131824] border border-indigo-500/40 rounded-2xl max-w-md w-full p-5 shadow-2xl space-y-4" onclick="event.stopPropagation()">
+        <div class="bg-[#131824] border border-emerald-500/30 rounded-2xl max-w-md w-full p-5 shadow-2xl space-y-4" onclick="event.stopPropagation()">
             <div class="flex items-start justify-between border-b border-white/10 pb-3">
                 <div>
                     <div class="flex items-center gap-2">
@@ -535,6 +641,12 @@
             </div>
 
             <div class="space-y-3.5">
+                <!-- เลือกหุ้นที่จะบันทึกเข้าพอร์ต (สะดวกเวลากดจากปุ่ม + บันทึกหุ้นเข้าพอร์ตเพิ่ม) -->
+                <div>
+                    <label class="text-xs text-slate-300 font-semibold block mb-1">เลือกหุ้นที่ต้องการบันทึก</label>
+                    <select id="hold-symbol-select" onchange="onHoldingSymbolSelectChange()" class="w-full bg-[#090D16] border border-white/15 rounded-xl px-3.5 py-2 text-sm font-bold text-white outline-none focus:border-emerald-500 cursor-pointer"></select>
+                </div>
+
                 <div>
                     <div class="flex items-center justify-between text-xs mb-1">
                         <label class="text-slate-300 font-semibold">จำนวนหุ้นที่ถืออยู่ (Shares)</label>
@@ -542,7 +654,7 @@
                             ใช้จำนวนหุ้นแนะนำ (0 หุ้น)
                         </button>
                     </div>
-                    <input type="number" id="hold-input-shares" step="any" min="0" placeholder="เช่น 100 หรือ 0.05" oninput="updateHoldingPreview()" class="w-full bg-[#090D16] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white outline-none focus:border-indigo-500">
+                    <input type="number" id="hold-input-shares" step="any" min="0" placeholder="เช่น 100 หรือ 0.05" oninput="updateHoldingPreview()" class="w-full bg-[#090D16] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white outline-none focus:border-emerald-500">
                 </div>
 
                 <div>
@@ -553,7 +665,7 @@
                             <button type="button" id="hold-fill-best-price" class="text-[11px] text-emerald-400 hover:underline">จุด Best Buy</button>
                         </div>
                     </div>
-                    <input type="number" id="hold-input-cost" step="any" min="0" placeholder="ราคาต้นทุนที่ซื้อมา" oninput="updateHoldingPreview()" class="w-full bg-[#090D16] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white outline-none focus:border-indigo-500">
+                    <input type="number" id="hold-input-cost" step="any" min="0" placeholder="ราคาต้นทุนที่ซื้อมา" oninput="updateHoldingPreview()" class="w-full bg-[#090D16] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white outline-none focus:border-emerald-500">
                 </div>
 
                 <div class="rounded-xl bg-[#090D16] border border-white/10 p-3 space-y-1.5 text-xs">
@@ -589,6 +701,7 @@
         let rawApiStocks = [];
         let processedStocksData = []; 
         let pollingTimer;
+        let currentMainView = 'dashboard'; // 'dashboard' | 'myportfolio'
 
         // 🕌 ตารางค่าประมาณการสัดส่วนรายได้ดอกเบี้ยแฝง (% Purification Rate ตามหลัก AAOIFI) สำหรับทั้ง 36 บริษัท
         const PURIFICATION_RATES = {
@@ -650,6 +763,53 @@
         document.getElementById('input-us-cash').value = portfolio.usCash;
         updateAllocButtonsUI();
 
+        // สลับหน้าหลักระหว่าง Trend Dashboard กับ Portfolio & Purify (เหมือนโปรเจกต์ 1)
+        function switchMainView(viewKey, preselectPurifySymbol = null) {
+            currentMainView = viewKey;
+            const dashSec = document.getElementById('view-dashboard-section');
+            const portSec = document.getElementById('view-portfolio-section');
+            const tabDash = document.getElementById('nav-tab-dashboard');
+            const tabPort = document.getElementById('nav-tab-myportfolio');
+            const mainTitle = document.getElementById('page-main-title');
+            const mainSub = document.getElementById('page-main-sub');
+            const cashbarBtn = document.getElementById('cashbar-portfolio-btn');
+
+            if (viewKey === 'myportfolio') {
+                dashSec.classList.add('hidden');
+                portSec.classList.remove('hidden');
+                tabPort.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+                tabDash.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 border border-transparent';
+                mainTitle.innerText = 'My Active Positions & Halal Dividend Purification';
+                mainSub.innerHTML = 'สรุปกำไร/ขาดทุนหุ้นที่ถืออยู่ในพอร์ตจริง และเครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (AAOIFI)';
+                cashbarBtn.innerText = '← กลับหน้าหลัก Trend Dashboard';
+                cashbarBtn.onclick = () => switchMainView('dashboard');
+
+                populatePurifySelect();
+                if (preselectPurifySymbol) {
+                    const sel = document.getElementById('purify-ticker-select');
+                    if (sel) {
+                        sel.value = preselectPurifySymbol;
+                        onPurifyTickerChange();
+                    }
+                }
+                renderPortfolioAndPurifyView();
+            } else {
+                portSec.classList.add('hidden');
+                dashSec.classList.remove('hidden');
+                tabDash.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+                tabPort.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 border border-transparent';
+                mainTitle.innerText = 'Trend Following PRO';
+                mainSub.innerHTML = '<i class="fa-solid fa-robot text-indigo-400 mr-1"></i> เพื่อนคู่หู AI สแกนต้นรอบ EMA 50/200 ฟันธงจังหวะซื้อ ติดตามกำไรพอร์ตจริง และคำนวณชำระปันผลฮาลาล';
+                cashbarBtn.innerText = '💼 เปิดหน้า Portfolio & ชำระปันผล →';
+                cashbarBtn.onclick = () => switchMainView('myportfolio');
+            }
+        }
+
+        // รองรับฟังก์ชัน togglePurifyPanel เดิมจาก index (7).html ให้สลับไปหน้า Portfolio & Purify ทันที
+        function togglePurifyPanel(preselectSymbol = null) {
+            switchMainView('myportfolio', preselectSymbol);
+        }
+
         function savePortfolio() {
             try {
                 localStorage.setItem('trend_portfolio_cash', JSON.stringify(portfolio));
@@ -674,7 +834,7 @@
             document.querySelectorAll('.alloc-btn').forEach(btn => {
                 const btnPct = Number(btn.getAttribute('data-pct'));
                 if (btnPct === portfolio.baseAllocPct) {
-                    btn.className = 'alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-blue-500/25 border-blue-500/50 text-blue-300';
+                    btn.className = 'alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-emerald-500/25 border-emerald-500/50 text-emerald-300';
                 } else {
                     btn.className = 'alloc-btn flex-1 py-0.5 rounded text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white';
                 }
@@ -1040,6 +1200,7 @@
             });
 
             updateDisplay();
+            renderPortfolioAndPurifyView();
         }
 
         function setFilterState(state) {
@@ -1107,11 +1268,109 @@
             updateDisplay();
         }
 
-        // 💼 อัปเดตแผงสรุปพอร์ตหุ้นที่ถืออยู่จริงด้านบนหน้าเว็บ
+        // 💼 อัปเดตหน้า Portfolio & Purify (การ์ดสรุป THB/USD + ตาราง Active Positions เหมือนในภาพโปรเจกต์ 1)
+        function renderPortfolioAndPurifyView() {
+            const heldList = processedStocksData.filter(s => s.isHeld);
+            const thHeld = heldList.filter(s => s.market === 'TH');
+            const usHeld = heldList.filter(s => s.market === 'US');
+
+            const thInvested = thHeld.reduce((acc, s) => acc + s.investedCapital, 0);
+            const thCurrent = thHeld.reduce((acc, s) => acc + s.currentMarketValue, 0);
+            const thPnl = thCurrent - thInvested;
+            const thPnlPct = thInvested > 0 ? (thPnl / thInvested) * 100 : 0;
+
+            const usInvested = usHeld.reduce((acc, s) => acc + s.investedCapital, 0);
+            const usCurrent = usHeld.reduce((acc, s) => acc + s.currentMarketValue, 0);
+            const usPnl = usCurrent - usInvested;
+            const usPnlPct = usInvested > 0 ? (usPnl / usInvested) * 100 : 0;
+
+            // อัปเดตการ์ดสรุปพอร์ตหุ้นไทย (THB)
+            document.getElementById('port-th-count').innerText = `${thHeld.length} บริษัท`;
+            document.getElementById('port-th-current').innerText = `฿${thCurrent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('port-th-invested').innerText = `ต้นทุนรวม: ฿${thInvested.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            const thPnlEl = document.getElementById('port-th-pnl');
+            const thPctEl = document.getElementById('port-th-pnl-pct');
+            thPnlEl.innerText = `${thPnl >= 0 ? '+' : ''}฿${thPnl.toFixed(2)}`;
+            thPnlEl.className = `text-xl font-extrabold ${thPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+            thPctEl.innerText = `(${thPnlPct >= 0 ? '+' : ''}${thPnlPct.toFixed(2)}%)`;
+            thPctEl.className = `text-xs font-bold ${thPnlPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+
+            // อัปเดตการ์ดสรุปพอร์ตหุ้นอเมริกา (USD)
+            document.getElementById('port-us-count').innerText = `${usHeld.length} บริษัท`;
+            document.getElementById('port-us-current').innerText = `$${usCurrent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('port-us-invested').innerText = `ต้นทุนรวม: $${usInvested.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            const usPnlEl = document.getElementById('port-us-pnl');
+            const usPctEl = document.getElementById('port-us-pnl-pct');
+            usPnlEl.innerText = `${usPnl >= 0 ? '+' : ''}$${usPnl.toFixed(2)}`;
+            usPnlEl.className = `text-xl font-extrabold ${usPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+            usPctEl.innerText = `(${usPnlPct >= 0 ? '+' : ''}${usPnlPct.toFixed(2)}%)`;
+            usPctEl.className = `text-xs font-bold ${usPnlPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+
+            // อัปเดตตาราง Active Positions หรือ Empty State
+            const emptyBox = document.getElementById('port-empty-state');
+            const tableWrap = document.getElementById('port-table-wrapper');
+            const tbody = document.getElementById('port-table-body');
+
+            if (heldList.length === 0) {
+                emptyBox.classList.remove('hidden');
+                tableWrap.classList.add('hidden');
+                tbody.innerHTML = '';
+            } else {
+                emptyBox.classList.add('hidden');
+                tableWrap.classList.remove('hidden');
+                tbody.innerHTML = heldList.map(s => {
+                    const curr = s.currency || '$';
+                    const sign = s.pnlAmount >= 0 ? '+' : '';
+                    const pnlClass = s.pnlAmount >= 0 ? 'text-emerald-400' : 'text-rose-400';
+                    const mktFlag = s.market === 'TH' ? '🇹🇭 TH' : '🇺🇸 US';
+                    return `
+                        <tr onclick="openStockModal('${s.symbol}')" class="border-b border-white/5 last:border-0 hover:bg-white/[0.03] cursor-pointer">
+                            <td class="px-4 py-3.5">
+                                <div class="flex items-center gap-1.5 font-bold text-white">
+                                    <span>${s.symbol}</span>
+                                    <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">${mktFlag}</span>
+                                </div>
+                                <div class="text-xs text-slate-400">${s.name}</div>
+                            </td>
+                            <td class="px-4 py-3.5 font-bold text-white">${s.heldShares} หุ้น</td>
+                            <td class="px-4 py-3.5 text-xs">
+                                <span class="text-slate-300">${curr}${s.avgCost.toFixed(2)}</span>
+                                <span class="mx-1.5 text-slate-500">→</span>
+                                <span class="font-bold text-white">${curr}${s.price.toFixed(2)}</span>
+                            </td>
+                            <td class="px-4 py-3.5 font-bold text-white">
+                                ${curr}${s.currentMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </td>
+                            <td class="px-4 py-3.5">
+                                <span class="font-extrabold ${pnlClass}">
+                                    ${sign}${curr}${s.pnlAmount.toLocaleString()} (${sign}${s.pnlPct}%)
+                                </span>
+                            </td>
+                            <td class="px-4 py-3.5 text-xs text-teal-300 max-w-xs">${s.holdingAlert}</td>
+                            <td class="px-4 py-3.5">
+                                <button type="button" onclick="openHoldingModal('${s.symbol}', event)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-300">
+                                    แก้ไข
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        // 💼 อัปเดตแบนเนอร์พรีวิวพอร์ตบนหน้า Dashboard (ครบทั้งป้ายสรุปไทย/US จาก index (7).html และปุ่มลิงก์)
         function renderActiveHoldingsBanner() {
             const heldList = processedStocksData.filter(s => s.isHeld);
             const banner = document.getElementById('active-holdings-banner');
             const grid = document.getElementById('active-holdings-grid');
+            const navBadge = document.getElementById('nav-held-badge');
+
+            if (heldList.length > 0) {
+                navBadge.innerText = heldList.length;
+                navBadge.classList.remove('hidden');
+            } else {
+                navBadge.classList.add('hidden');
+            }
 
             if (heldList.length === 0) {
                 banner.classList.add('hidden');
@@ -1233,7 +1492,6 @@
                 return matchSearch && matchFilter && matchMarket && matchHalal && matchFav && matchHeld;
             });
 
-            // จัดเรียงลำดับ (ดันหุ้นติดดาวขึ้นก่อนเสมอ)
             filteredStocks.sort((a, b) => {
                 const aFav = favorites.includes(a.symbol) ? 1 : 0;
                 const bFav = favorites.includes(b.symbol) ? 1 : 0;
@@ -1275,7 +1533,6 @@
                 const isFav = favorites.includes(stock.symbol);
                 const trendBadge = getTrendBadgeHtml(stock.statusKey);
 
-                // แยกโทนสีการ์ดตามสัญญาณเทรนด์
                 let cardBorder = 'border-white/5 hover:border-blue-500/40 bg-[#131824]';
                 if (stock.statusKey === 'EARLY_UP') {
                     cardBorder = 'border-yellow-500/40 hover:border-yellow-400 bg-gradient-to-b from-[#221F14] via-[#131824] to-yellow-900/20 shadow-[0_0_20px_rgba(234,179,8,0.08)]';
@@ -1331,7 +1588,6 @@
                 const card = `
                     <div onclick="openStockModal('${stock.symbol}')" class="ai-card fade-in rounded-2xl p-5 border transition-all duration-300 shadow-lg hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col justify-between h-full ${cardBorder}">
                         <div>
-                            <!-- แถวบนสุด: ชื่อหุ้น + ธงตลาด + ปุ่มติดดาว + ป้ายเทรนด์ -->
                             <div class="flex justify-between items-start gap-2 mb-3">
                                 <div class="min-w-0">
                                     <div class="flex items-center gap-1.5">
@@ -1348,7 +1604,6 @@
                                 </div>
                             </div>
                             
-                            <!-- แถวราคาปัจจุบัน + ป้ายความคุ้มค่า (RRR) + สถานะหนี้ฮาลาล -->
                             <div class="flex items-end justify-between pb-3 mb-2.5 border-b border-white/5">
                                 <div>
                                     <p class="text-[10px] text-slate-500 uppercase tracking-wider">Current Price</p>
@@ -1367,10 +1622,8 @@
                                 </div>
                             </div>
 
-                            <!-- 💼 แถบหุ้นที่ถืออยู่จริง หรือ ปุ่มบันทึกต้นทุน -->
                             ${holdingBoxHtml}
 
-                            <!-- 🚦 กล่องฟันธงจังหวะเข้าซื้อ (ซื้อตอนนี้ vs รอลงกว่านี้) + ราคาที่ควรตั้งซื้อ + งบที่ควรลง -->
                             <div class="rounded-xl bg-[#090D16]/90 border border-sky-500/25 p-3 mb-3 space-y-2">
                                 <div class="flex items-center justify-between gap-1.5 flex-wrap pb-1.5 border-b border-white/5">
                                     <span class="text-[10px] text-slate-400 font-semibold uppercase">จังหวะซื้อ:</span>
@@ -1392,7 +1645,6 @@
                                 </div>
                             </div>
 
-                            <!-- กล่องเปรียบเทียบ EMA 50 และ EMA 200 -->
                             <div class="grid grid-cols-2 gap-2 mb-2.5">
                                 <div class="rounded-xl bg-[#090D16]/80 border border-white/5 px-3 py-2">
                                     <p class="text-[10px] text-slate-400 uppercase">EMA 50 (แนวรับกลาง)</p>
@@ -1408,7 +1660,6 @@
                                 </div>
                             </div>
 
-                            <!-- หลอดวัดกรอบราคา 60 วัน และ EMA Gap -->
                             <div class="bg-[#090D16]/70 px-3 py-2 rounded-xl border border-white/5 mb-3">
                                 <div class="flex justify-between items-center text-[10px] mb-1">
                                     <span class="text-slate-400">กรอบ 60 วัน (${stock.rangePos}%)</span>
@@ -1422,7 +1673,6 @@
                             </div>
                         </div>
 
-                        <!-- 🗣️ กล่องเพื่อนคู่หู AI กระซิบบอก (ชี้เมาส์เพื่ออ่านเต็ม หรือคลิกเปิดแผนเทรด) -->
                         <div class="p-3 rounded-xl border ${buddyBoxClass} transition-all duration-300">
                             <div class="flex items-center justify-between mb-1">
                                 <div class="flex items-center gap-1.5">
@@ -1439,13 +1689,37 @@
             });
         }
 
-        // 💼 ฟังก์ชันเปิด/บันทึกหน้าต่าง Holding Editor Modal
+        // 💼 ฟังก์ชันเปิด/บันทึกหน้าต่าง Holding Editor Modal (รองรับการเลือกหุ้นจาก Dropdown)
         function openHoldingModal(symbol, event) {
             if (event) event.stopPropagation();
+            if (!processedStocksData || processedStocksData.length === 0) return;
+
+            const selectEl = document.getElementById('hold-symbol-select');
+            selectEl.innerHTML = processedStocksData.map(s => {
+                const tag = s.isHeld ? ` [ถืออยู่ ${s.heldShares} หุ้น]` : '';
+                return `<option value="${s.symbol}" class="bg-[#131824]">${s.symbol} - ${s.name}${tag}</option>`;
+            }).join('');
+
+            const targetSym = symbol || processedStocksData[0].symbol;
+            selectEl.value = targetSym;
+            currentEditingSymbol = targetSym;
+            syncHoldingModalFields(targetSym);
+
+            const modal = document.getElementById('holding-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function onHoldingSymbolSelectChange() {
+            const sym = document.getElementById('hold-symbol-select').value;
+            currentEditingSymbol = sym;
+            syncHoldingModalFields(sym);
+        }
+
+        function syncHoldingModalFields(symbol) {
             const stock = processedStocksData.find(s => s.symbol === symbol);
             if (!stock) return;
 
-            currentEditingSymbol = symbol;
             const curr = stock.currency || '$';
             document.getElementById('hold-modal-title').innerText = `💼 บันทึกหุ้นที่ถือจริง: ${stock.symbol}`;
             document.getElementById('hold-modal-mkt').innerText = stock.market === 'TH' ? '🇹🇭 TH' : '🇺🇸 US';
@@ -1477,9 +1751,6 @@
             }
 
             updateHoldingPreview();
-            const modal = document.getElementById('holding-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
         }
 
         function updateHoldingPreview() {
@@ -1531,24 +1802,6 @@
         }
 
         // 🕌 ฟังก์ชันเครื่องคิดเลขชำระล้างเงินปันผลฮาลาล (Halal Dividend Purification)
-        function togglePurifyPanel(preselectSymbol = null) {
-            const panel = document.getElementById('purification-panel');
-            if (preselectSymbol) {
-                panel.classList.remove('hidden');
-                const selectEl = document.getElementById('purify-ticker-select');
-                if (selectEl) {
-                    selectEl.value = preselectSymbol;
-                    onPurifyTickerChange();
-                }
-                panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            panel.classList.toggle('hidden');
-            if (!panel.classList.contains('hidden')) {
-                populatePurifySelect();
-            }
-        }
-
         function populatePurifySelect() {
             const selectEl = document.getElementById('purify-ticker-select');
             if (!selectEl || processedStocksData.length === 0) return;
@@ -1600,7 +1853,7 @@
             const donateAmt = (netReceived * impureRate) / 100;
             const pureAmt = netReceived - donateAmt;
 
-            document.getElementById('purify-net-after-tax').innerText = `รับจริงหลังภาษี: ${curr}${netReceived.toFixed(2)}`;
+            document.getElementById('purify-net-after-tax').innerHTML = `รับจริงหลังภาษี: <strong class="text-slate-300">${curr}${netReceived.toFixed(2)}</strong>`;
             document.getElementById('purify-res-net').innerText = `${curr}${netReceived.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             document.getElementById('purify-res-donate-label').innerText = `🤲 ยอดที่ต้องแบ่งบริจาคชำระล้าง (${impureRate}%)`;
             document.getElementById('purify-res-donate').innerText = `${curr}${donateAmt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -1692,10 +1945,8 @@
                 openHoldingModal(stock.symbol);
             };
 
-            // ข้อความเพื่อนคู่หูฟันธงด้านบนสุดของ Modal
             document.getElementById('modal-buddy-text').innerText = stock.buddyTalk;
 
-            // ข้อมูลแผนการตั้งซื้อ & ขนาดเงินลงทุน
             document.getElementById('modal-best-buy').innerText = `${curr}${stock.bestBuyPrice.toFixed(2)}`;
             document.getElementById('modal-entry-advice').innerText = stock.entryAdvice;
             document.getElementById('modal-rrr').innerText = `1 : ${stock.rrr}`;
@@ -1730,7 +1981,6 @@
             document.getElementById('modal-gap').innerText = `EMA Gap: ${stock.gapPercent >= 0 ? '+' : ''}${stock.gapPercent.toFixed(2)}%`;
             document.getElementById('modal-ai-text').innerText = stock.aiSummaryText.trim();
 
-            // วาดกราฟ SVG จากข้อมูลราคาย้อนหลัง
             const prices = (stock.historicalPrices || []).slice(-120);
             const chartBox = document.getElementById('modal-chart-box');
             if (prices.length > 5) {
