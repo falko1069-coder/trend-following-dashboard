@@ -44,7 +44,7 @@
                             Trend Following PRO
                         </h1>
                         <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                            AI Buddy, Cross-Currency Allocator & P/L Desk
+                            BDS-Free · AI Buddy & Cross-Currency Desk
                         </span>
                     </div>
                     <p id="page-main-sub" class="text-slate-400 text-xs sm:text-sm mt-0.5">
@@ -498,7 +498,7 @@
                                 <button type="button" onclick="setAllocSelectionMode('MANUAL')" id="amode-MANUAL" class="flex-1 py-1.5 rounded-lg text-[11px] font-bold border bg-white/5 border-white/10 text-slate-400 hover:text-white">✋ เลือกเอง</button>
                             </div>
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-1.5">AI ถ่วงน้ำหนักตามต้นรอบ EMA 50/200 และ RRR</p>
+                        <p class="text-[10px] text-slate-500 mt-1.5">AI ถ่วงน้ำหนักตามต้นรอบ EMA 50/200 และ RRR</p>
                     </div>
                 </div>
 
@@ -640,7 +640,7 @@
             <div class="flex items-start justify-between gap-4 border-b border-white/5 pb-4">
                 <div>
                     <div class="flex items-center gap-2.5 flex-wrap">
-                        <h2 id="modal-symbol" class="text-2xl font-extrabold text-white">AAPL</h2>
+                        <h2 id="modal-symbol" class="text-2xl font-extrabold text-white">TSM</h2>
                         <span id="modal-market" class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">🇺🇸 US</span>
                         <span id="modal-trend-badge"></span>
                         <span id="modal-timing-badge"></span>
@@ -649,7 +649,7 @@
                             💼 + บันทึกว่าซื้อถืออยู่จริง
                         </button>
                     </div>
-                    <p id="modal-name" class="text-slate-400 text-sm mt-0.5">Apple Inc.</p>
+                    <p id="modal-name" class="text-slate-400 text-sm mt-0.5">Taiwan Semiconductor (TSMC)</p>
                 </div>
                 <button onclick="closeModal()" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -763,7 +763,7 @@
             <div class="flex items-start justify-between border-b border-white/10 pb-3">
                 <div>
                     <div class="flex items-center gap-2">
-                        <h3 id="hold-modal-title" class="text-lg font-extrabold text-white">💼 บันทึกหุ้นที่ถือจริง: AAPL</h3>
+                        <h3 id="hold-modal-title" class="text-lg font-extrabold text-white">💼 บันทึกหุ้นที่ถือจริง: TSM</h3>
                         <span id="hold-modal-mkt" class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">🇺🇸 US</span>
                     </div>
                     <p id="hold-modal-sub" class="text-xs text-slate-400 mt-0.5">ราคาตลาดปัจจุบัน $0.00</p>
@@ -836,14 +836,17 @@
         let pollingTimer;
         let currentMainView = 'dashboard'; // 'dashboard' | 'myportfolio'
 
-        // 🕌 ตารางค่าประมาณการสัดส่วนรายได้ดอกเบี้ยแฝง (% Purification Rate ตามหลัก AAOIFI) สำหรับทั้ง 36 บริษัท
+        // รายชื่อหุ้น BDS เดิมที่ถูกตัดออก (ใช้กรองออกจาก localStorage อัตโนมัติ)
+        const REMOVED_BDS_TICKERS = ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'CSCO', 'CAT'];
+
+        // 🕌 ตารางค่าประมาณการสัดส่วนรายได้ดอกเบี้ยแฝง (% Purification Rate ตามหลัก AAOIFI) สำหรับทั้ง 36 บริษัท (BDS-Free Edition)
         const PURIFICATION_RATES = {
             'HLAL': 0.5, 'SPUS': 0.4, 'SPSK': 0.0, 'UMMA': 0.6,
-            'AAPL': 1.8, 'MSFT': 1.6, 'GOOGL': 2.1, 'NVDA': 0.9,
-            'AVGO': 1.5, 'TSLA': 1.5, 'AMD': 0.9, 'ASML': 1.1,
-            'ADBE': 1.1, 'CRM': 1.4, 'CSCO': 1.9, 'PCOR': 1.2,
+            'TSM': 0.8, 'ASML': 1.1, 'ANET': 1.1, 'LRCX': 0.9,
+            'AVGO': 1.5, 'TSLA': 1.5, 'AMD': 0.9, 'PWR': 1.2,
+            'ADBE': 1.1, 'CRM': 1.4, 'ISRG': 0.9, 'PCOR': 1.2,
             'CRWD': 1.3, 'NOW': 1.2, 'SNPS': 1.0, 'MELI': 2.2,
-            'CAT': 2.5, 'JNJ': 1.3, 'TXN': 1.4, 'LLY': 0.8, 'NVO': 0.9,
+            'FSLR': 1.0, 'JNJ': 1.3, 'TXN': 1.4, 'LLY': 0.8, 'NVO': 0.9,
             'DELTA.BK': 0.8, 'HANA.BK': 1.4, 'KCE.BK': 1.2, 'ADVANC.BK': 0.8,
             'BH.BK': 0.9, 'BDMS.BK': 0.7, 'MEGA.BK': 1.1, 'PTTEP.BK': 1.7,
             'AOT.BK': 2.8, 'HMPRO.BK': 0.6, 'GULF.BK': 4.5
@@ -874,12 +877,17 @@
             if (savedPort) portfolio = { ...portfolio, ...JSON.parse(savedPort) };
         } catch (e) {}
 
-        // ⭐ โหลดรายการหุ้นโปรด (localStorage)
+        // ⭐ โหลดรายการหุ้นโปรด (localStorage) พร้อมกรองหุ้น BDS ที่ตัดออกแล้วทิ้งอัตโนมัติ
         try {
             const savedFav = localStorage.getItem('trend_fav_tickers');
-            favorites = savedFav ? JSON.parse(savedFav) : ['AAPL', 'NVDA', 'DELTA.BK', 'BH.BK'];
+            if (savedFav) {
+                const parsed = JSON.parse(savedFav).filter(t => !REMOVED_BDS_TICKERS.includes(t));
+                favorites = parsed.length > 0 ? parsed : ['TSM', 'ASML', 'DELTA.BK', 'BH.BK'];
+            } else {
+                favorites = ['TSM', 'ASML', 'DELTA.BK', 'BH.BK'];
+            }
         } catch (e) {
-            favorites = ['AAPL', 'NVDA', 'DELTA.BK', 'BH.BK'];
+            favorites = ['TSM', 'ASML', 'DELTA.BK', 'BH.BK'];
         }
 
         // 💼 โหลดรายการหุ้นที่ซื้อถืออยู่จริง (localStorage)
